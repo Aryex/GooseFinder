@@ -18,34 +18,52 @@ public class GameController {
     private final CookieMap cookieMap;
     private int turn;
     ArrayList<Point> revealedCookies;
+    private boolean cellVisisted[][];
 
     public GameController(CookieMap cookieMap) {
         this.cookieMap = cookieMap;
         revealedCookies = new ArrayList<>();
+        cellVisisted = new boolean[cookieMap.getMaxRow()][cookieMap.getMaxCol()];
     }
 
-    public void test(){
+    public void test() {
         //knownCookiesPoints.add(new Point(0,0));
-        System.out.println("Bool: " + revealedCookies.contains(new Point(0,0)));
+        System.out.println("Bool: " + revealedCookies.contains(new Point(0, 0)));
         //System.out.println(scanCookieHint(new point()));
     }
-    public int select(Point point){
+
+    //main method for class to interact outside.
+    public int select(Point point) {
         this.turn++;
-        if(revealedCookies.contains(point)){
+        cellVisisted[point.getX()][point.getY()] = true;
+
+        if (hasCookieVisitedAt(point)) {
             return scanCookieHint(point);
         }
-        if(cookieMap.hasCookieAt(point)){
+        if (hasCookieAt(point)) {
             revealedCookies.add(point);
             return -1;
-        }else{
+        } else {
             return scanCookieHint(point);
         }
     }
 
-    private int scanCookieHint(Point point) {
-        if(cookieMap.hasCookieAt(point)){
+    public boolean hasVisited(Point point){
+        return cellVisisted[point.getX()][point.getY()];
+    }
+
+    public boolean hasCookieAt(Point point) {
+        return cookieMap.hasCookieAt(point);
+    }
+
+    public boolean hasCookieVisitedAt(Point point) {
+        return revealedCookies.contains(point);
+    }
+
+    public int scanCookieHint(Point point) {
+        if (cookieMap.hasCookieAt(point)) {
             return scanSideWay(point) + scanDownWard(point);
-        }else{
+        } else {
             return scanSideWay(point) + scanDownWard(point);
         }
     }
@@ -57,8 +75,8 @@ public class GameController {
         for (int i = 0; i < maxRow; i++) {
             Point rowPoint = new Point(i, point.getY());
             //System.out.println("(" + rowPoint.getX() + "," + rowPoint.getY() + ")");
-            if(cookieMap.hasCookieAt(rowPoint)){
-                if(!revealedCookies.contains(rowPoint)){
+            if (cookieMap.hasCookieAt(rowPoint)) {
+                if (!revealedCookies.contains(rowPoint)) {
                     downwardCount++;
                 }
             }
@@ -72,15 +90,16 @@ public class GameController {
         int maxCol = cookieMap.getMaxCol();
         for (int i = 0; i < maxCol; i++) {
             Point columnPoint = new Point(point.getX(), i);
-           // System.out.println("(" + row.getX() + "," + row.getY() + ")");
-            if(cookieMap.hasCookieAt(columnPoint)){
-                if(!revealedCookies.contains(columnPoint)){
+            // System.out.println("(" + row.getX() + "," + row.getY() + ")");
+            if (cookieMap.hasCookieAt(columnPoint)) {
+                if (!revealedCookies.contains(columnPoint)) {
                     sidewayCount++;
                 }
             }
         }
         return sidewayCount;
     }
+
     //Console debug
     public void draw() {
         System.out.println("Turn taken: " + turn);
@@ -92,10 +111,9 @@ public class GameController {
             System.out.print('[');
             for (Boolean cell : rows) {
                 Point point = new Point(row, col);
-                if(revealedCookies.contains(point)){
+                if (revealedCookies.contains(point)) {
                     System.out.print(" " + scanCookieHint(point) + " ");
-                }
-                else if (cell) {
+                } else if (cell) {
                     System.out.print(" C ");
                 } else {
                     System.out.print(" \\ ");
@@ -106,5 +124,9 @@ public class GameController {
             row++;
         }
         System.out.println('\n');
+    }
+
+    public boolean cookieIsRevealed(Point point) {
+        return revealedCookies.contains(point);
     }
 }

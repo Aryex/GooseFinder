@@ -55,7 +55,6 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-
     private void generateGameBoard() {
         final TableLayout gameTable = findViewById(R.id.gameTableLayout);
         for (int row = 0; row < MAX_ROW; row++) {

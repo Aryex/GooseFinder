@@ -16,14 +16,21 @@ Cookie Map expect x = Row and y = Col
 * */
 public class GameController {
     private final CookieMap cookieMap;
-    private int turn;
-    ArrayList<Point> revealedCookies;
-    private boolean cellVisisted[][];
+    private int turnCount = 0;
+    private int totalCookies ;
+    private ArrayList<Point> revealedCookies = new ArrayList<>();
+    private ArrayList<Point> hintedCookies = new ArrayList<>();
+    private boolean[][] cellVisited;
 
-    public GameController(CookieMap cookieMap) {
-        this.cookieMap = cookieMap;
-        revealedCookies = new ArrayList<>();
-        cellVisisted = new boolean[cookieMap.getMaxRow()][cookieMap.getMaxCol()];
+    public GameController(int maxRow, int maxCol, int maxCookies) {
+        this.cookieMap = new CookieMap(maxRow,maxCol,maxCookies);
+        this.totalCookies = maxCookies;
+        cellVisited = new boolean[cookieMap.getMaxRow()][cookieMap.getMaxCol()];
+        for(boolean[] row : cellVisited){
+            for (boolean cell : row){
+                cell = false;
+            }
+        }
     }
 
     public void test() {
@@ -34,10 +41,13 @@ public class GameController {
 
     //main method for class to interact outside.
     public int select(Point point) {
-        this.turn++;
-        cellVisisted[point.getX()][point.getY()] = true;
+        this.turnCount++;
+        cellVisited[point.getX()][point.getY()] = true;
 
         if (hasCookieVisitedAt(point)) {
+            if(!hintedCookies.contains(point)){
+                hintedCookies.add(point);
+            }
             return scanCookieHint(point);
         }
         if (hasCookieAt(point)) {
@@ -49,7 +59,7 @@ public class GameController {
     }
 
     public boolean hasVisited(Point point){
-        return cellVisisted[point.getX()][point.getY()];
+        return cellVisited[point.getX()][point.getY()];
     }
 
     public boolean hasCookieAt(Point point) {
@@ -102,7 +112,7 @@ public class GameController {
 
     //Console debug
     public void draw() {
-        System.out.println("Turn taken: " + turn);
+        System.out.println("Turn taken: " + turnCount);
         System.out.println("Cookies left: " + (cookieMap.getTotalCookies() - revealedCookies.size()));
         System.out.println("Total Cookies: " + cookieMap.getTotalCookies());
         int row = 0;
@@ -128,5 +138,24 @@ public class GameController {
 
     public boolean cookieIsRevealed(Point point) {
         return revealedCookies.contains(point);
+    }
+
+    public boolean hasHintedCookie(Point point) {
+        return hintedCookies.contains(point);
+    }
+
+    public int getTotalCookies() {
+        return totalCookies;
+    }
+
+    public int getCountedCookies(){
+        if(revealedCookies.isEmpty()){
+            return 0;
+        }
+        return revealedCookies.size();
+    }
+
+    public int getTurnCounts() {
+        return turnCount;
     }
 }

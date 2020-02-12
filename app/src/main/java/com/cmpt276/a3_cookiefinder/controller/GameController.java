@@ -17,14 +17,15 @@ Cookie Map expect x = Row and y = Col
 public class GameController {
     private final CookieMap cookieMap;
     private int turnCount = 0;
-    private int totalCookies ;
+    private int maxScore;
     private ArrayList<Point> revealedCookies = new ArrayList<>();
     private ArrayList<Point> hintedCookies = new ArrayList<>();
     private boolean[][] cellVisited;
+    private int score = 0;
 
     public GameController(int maxRow, int maxCol, int maxCookies) {
         this.cookieMap = new CookieMap(maxRow,maxCol,maxCookies);
-        this.totalCookies = maxCookies;
+        this.maxScore = maxCookies;
         cellVisited = new boolean[cookieMap.getMaxRow()][cookieMap.getMaxCol()];
         for(boolean[] row : cellVisited){
             for (boolean cell : row){
@@ -52,6 +53,7 @@ public class GameController {
         }
         if (hasCookieAt(point)) {
             revealedCookies.add(point);
+            score++;
             return -1;
         } else {
             return scanCookieHint(point);
@@ -144,8 +146,8 @@ public class GameController {
         return hintedCookies.contains(point);
     }
 
-    public int getTotalCookies() {
-        return totalCookies;
+    public int getMaxScore() {
+        return maxScore;
     }
 
     public int getCountedCookies(){
@@ -157,5 +159,9 @@ public class GameController {
 
     public int getTurnCounts() {
         return turnCount;
+    }
+
+    public boolean won() {
+        return score == maxScore;
     }
 }

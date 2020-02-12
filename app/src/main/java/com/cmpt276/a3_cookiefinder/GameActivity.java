@@ -1,27 +1,21 @@
 package com.cmpt276.a3_cookiefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.cmpt276.a3_cookiefinder.controller.GameController;
-import com.cmpt276.a3_cookiefinder.model.game_obj.CookieMap;
 import com.cmpt276.a3_cookiefinder.model.game_obj.Point;
-
-import org.w3c.dom.Text;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -113,6 +107,16 @@ public class GameActivity extends AppCompatActivity {
             }
             updateAroundPoint(buttonPoint);
             updateTrackerText();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            //MessageFragment dialog = new MessageFragment();
+            checkWinCondition();
+        }
+    }
+
+    private void checkWinCondition() {
+        if(gameController.won()){
+            //call dialog.
+
         }
     }
 
@@ -120,7 +124,7 @@ public class GameActivity extends AppCompatActivity {
         TextView cookiesScore = findViewById(R.id.textViewCookieScore);
         TextView turnCount = findViewById(R.id.textViewTurnsNumber);
 
-        cookiesScore.setText(gameController.getCountedCookies() + " / " + gameController.getTotalCookies());
+        cookiesScore.setText(gameController.getCountedCookies() + " / " + gameController.getMaxScore());
         turnCount.setText(String.valueOf(gameController.getTurnCounts()));
         lockButtonSize();
     }

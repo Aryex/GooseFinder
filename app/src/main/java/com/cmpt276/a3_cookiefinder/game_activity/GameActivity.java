@@ -1,21 +1,26 @@
-package com.cmpt276.a3_cookiefinder;
+package com.cmpt276.a3_cookiefinder.game_activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.cmpt276.a3_cookiefinder.controller.GameController;
-import com.cmpt276.a3_cookiefinder.model.game_obj.Point;
+import com.cmpt276.a3_cookiefinder.R;
+import com.cmpt276.a3_cookiefinder.model.model.controller.GameController;
+import com.cmpt276.a3_cookiefinder.model.model.game_obj.Point;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -33,6 +38,10 @@ public class GameActivity extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
             | View.SYSTEM_UI_FLAG_IMMERSIVE;
 
+    public static Intent getLaunchIntent(Context context){
+        return new Intent(context, GameActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
 
 
         gameController = new GameController(MAX_ROW, MAX_COL, 3);
-
+        updateTrackerText();
         generateGameBoard();
         //generateBoardLayout();
 
@@ -71,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
                         1.0f));
                 //set button's content padding
                 button.setPadding(0, 0, 0, 0);
-
+                button.setTextColor(getColor(R.color.night_sky));
                 //hook button to controller
                 button.setOnClickListener(new onButtonClick(row, col, button));
             }
@@ -91,15 +100,15 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
+            lockButtonSize();
             Point buttonPoint = new Point(row, col);
             int answer = gameController.select(buttonPoint);
 
             if (answer == -1) {
-                //button.setText("Cookie!");
                 turnOnImage(button);
 
             } else if (gameController.hasCookieAt(buttonPoint)) {
-                buttons[row][col].setText(" Hint: " + gameController.scanCookieHint(new Point(row, col)));
+                buttons[row][col].setText("" + gameController.scanCookieHint(new Point(row, col)));
 
             } else if (!gameController.hasCookieAt(buttonPoint)) {
                 button.setText(" Hint: " + answer);
@@ -107,16 +116,17 @@ public class GameActivity extends AppCompatActivity {
             }
             updateAroundPoint(buttonPoint);
             updateTrackerText();
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            //MessageFragment dialog = new MessageFragment();
             checkWinCondition();
+            button.setTextSize(32);
         }
     }
 
     private void checkWinCondition() {
-        if(gameController.won()){
-            //call dialog.
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        AlertFragment dialog = new AlertFragment();
 
+        if(gameController.won()){
+            dialog.show(fragmentManager, "Alert Dialog");
         }
     }
 
@@ -126,7 +136,7 @@ public class GameActivity extends AppCompatActivity {
 
         cookiesScore.setText(gameController.getCountedCookies() + " / " + gameController.getMaxScore());
         turnCount.setText(String.valueOf(gameController.getTurnCounts()));
-        lockButtonSize();
+        //lockButtonSize();
     }
 
     private void updateAroundPoint(Point startingPoint) {
@@ -136,10 +146,10 @@ public class GameActivity extends AppCompatActivity {
                 //if its not the point that im at, update it.
                 if (!point.equals(startingPoint) && gameController.hasVisited(point)) {
                     if (!gameController.hasCookieAt(point)) {
-                        buttons[row][col].setText(" Hint: " + gameController.scanCookieHint(new Point(row, col)));
+                        buttons[row][col].setText("Hint: " + gameController.scanCookieHint(new Point(row, col)));
                     } else {
                         if (gameController.hasHintedCookie(point)) {
-                            buttons[row][col].setText("  Hint: " + gameController.scanCookieHint(new Point(row, col)));
+                            buttons[row][col].setText(" " + gameController.scanCookieHint(new Point(row, col)));
                         }
 
                     }
@@ -151,6 +161,7 @@ public class GameActivity extends AppCompatActivity {
     private void turnOnImage(Button button) {
         int newWidth = button.getWidth();
         int newHeight = button.getHeight();
+        Log.i("TurnOnImage: ","Image Size "+newHeight+" : "+newWidth);
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_cookie);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
         Resources resource = getResources();
@@ -171,6 +182,8 @@ public class GameActivity extends AppCompatActivity {
                 button.setMaxHeight(height);
             }
         }
+        Log.i("Lock: ","Old Size "+buttons[0][1].getHeight()+" : "+buttons[0][1].getWidth());
+        Log.i("Lock: ","Old Size "+buttons[1][1].getHeight()+" : "+buttons[1][1].getWidth());
     }
 
 }

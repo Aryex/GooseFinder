@@ -1,7 +1,7 @@
-package com.cmpt276.a3_cookiefinder.controller;
+package com.cmpt276.a3_cookiefinder.model.model.controller;
 
-import com.cmpt276.a3_cookiefinder.model.game_obj.CookieMap;
-import com.cmpt276.a3_cookiefinder.model.game_obj.Point;
+import com.cmpt276.a3_cookiefinder.model.model.game_obj.CookieMap;
+import com.cmpt276.a3_cookiefinder.model.model.game_obj.Point;
 
 import java.util.ArrayList;
 

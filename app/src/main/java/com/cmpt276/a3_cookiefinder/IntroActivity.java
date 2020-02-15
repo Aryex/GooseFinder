@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -16,12 +17,21 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
+        Button btnSkip = findViewById(R.id.btnIntroActSkip);
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MainMenuActivity.getLaunchIntent(IntroActivity.this));
+                finish();
+            }
+        });
+
         ImageView cookieImgView = findViewById(R.id.imageViewCookieIntro);
         View rootLayout = findViewById(R.id.constraintLayoutIntro);
         float layoutHeight = rootLayout.getHeight();
 
-        ObjectAnimator heightAnimator = ObjectAnimator.ofFloat(cookieImgView, "y", 1000, 0).setDuration(3000);
-        heightAnimator.start();
+       /* ObjectAnimator heightAnimator = ObjectAnimator.ofFloat(cookieImgView, "y", 1000, 0).setDuration(3000);
+        heightAnimator.start();*/
 
     }
 

@@ -1,4 +1,4 @@
-package com.cmpt276.a3_cookiefinder;
+package com.cmpt276.a3_cookiefinder.game_activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,7 +10,10 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-public class MsgFragment extends AppCompatDialogFragment {
+import com.cmpt276.a3_cookiefinder.MainMenuActivity;
+import com.cmpt276.a3_cookiefinder.R;
+
+public class AlertFragment extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         //create the fragment View
@@ -22,13 +25,13 @@ public class MsgFragment extends AppCompatDialogFragment {
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i("TAG", "You clicked it!");
+                getActivity().finish();
             }
         };
 
         //build alert dialog in our view
         return new AlertDialog.Builder(getActivity())
-                .setTitle("Game Over Title.")
+                .setTitle("Game Over!")
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, listener)
                 .create();

@@ -1,4 +1,4 @@
-package com.cmpt276.a3_cookiefinder.model.game_obj;
+package com.cmpt276.a3_cookiefinder.model.model.game_obj;
 /*
 Point class represents 2D coordinate*/
 public class Point {

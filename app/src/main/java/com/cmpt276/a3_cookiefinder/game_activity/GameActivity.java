@@ -24,10 +24,10 @@ import com.cmpt276.a3_cookiefinder.model.model.game_obj.Point;
 
 public class GameActivity extends AppCompatActivity {
 
-    private static final int MAX_COL = 3;
-    private static final int MAX_ROW = 2;
+    private static int MAX_COL = 3;
+    private static int MAX_ROW = 2;
     private static int turnCount = 0;
-    Button buttons[][] = new Button[MAX_ROW][MAX_COL];
+    private Button[][] buttons;
 
     private GameController gameController;
 
@@ -38,7 +38,7 @@ public class GameActivity extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
             | View.SYSTEM_UI_FLAG_IMMERSIVE;
 
-    public static Intent getLaunchIntent(Context context){
+    public static Intent getLaunchIntent(Context context) {
         return new Intent(context, GameActivity.class);
     }
 
@@ -51,7 +51,11 @@ public class GameActivity extends AppCompatActivity {
         //gameView.setSystemUiVisibility(IMMERSIVE);
 
 
-        gameController = new GameController(MAX_ROW, MAX_COL, 3);
+        gameController = new GameController();
+        MAX_ROW = gameController.getMAX_ROW();
+        MAX_COL = gameController.getMAX_COL();
+        buttons = new Button[MAX_ROW][MAX_COL];
+
         updateTrackerText();
         generateGameBoard();
         //generateBoardLayout();
@@ -111,13 +115,13 @@ public class GameActivity extends AppCompatActivity {
                 buttons[row][col].setText("" + gameController.scanCookieHint(new Point(row, col)));
 
             } else if (!gameController.hasCookieAt(buttonPoint)) {
-                button.setText(" Hint: " + answer);
+                button.setText("" + answer);
 
             }
             updateAroundPoint(buttonPoint);
             updateTrackerText();
             checkWinCondition();
-            button.setTextSize(32);
+            //button.setTextSize(24);
         }
     }
 
@@ -125,7 +129,7 @@ public class GameActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         AlertFragment dialog = new AlertFragment();
 
-        if(gameController.won()){
+        if (gameController.won()) {
             dialog.show(fragmentManager, "Alert Dialog");
         }
     }
@@ -146,7 +150,7 @@ public class GameActivity extends AppCompatActivity {
                 //if its not the point that im at, update it.
                 if (!point.equals(startingPoint) && gameController.hasVisited(point)) {
                     if (!gameController.hasCookieAt(point)) {
-                        buttons[row][col].setText("Hint: " + gameController.scanCookieHint(new Point(row, col)));
+                        buttons[row][col].setText("" + gameController.scanCookieHint(new Point(row, col)));
                     } else {
                         if (gameController.hasHintedCookie(point)) {
                             buttons[row][col].setText(" " + gameController.scanCookieHint(new Point(row, col)));
@@ -161,29 +165,42 @@ public class GameActivity extends AppCompatActivity {
     private void turnOnImage(Button button) {
         int newWidth = button.getWidth();
         int newHeight = button.getHeight();
-        Log.i("TurnOnImage: ","Image Size "+newHeight+" : "+newWidth);
+        Log.i("TurnOnImage(): ", " ");
+        Log.i("TurnOnImage(): ", "Button Size Max " + button.getMaxHeight() + " : " + button.getMaxWidth());
+        Log.i("TurnOnImage(): ", "Button Size min " + newHeight + " : " + newWidth);
+
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.game_cookie);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
+        //scaledBitmap.setHeight(scaledBitmap.getHeight()+10);
+
+        Log.i("TurnOnImage(): ", " scaleBitMap Size  " + scaledBitmap.getHeight() + " : " + scaledBitmap.getWidth());
+
         Resources resource = getResources();
         button.setBackground(new BitmapDrawable(resource, scaledBitmap));
     }
 
     private void lockButtonSize() {
+        Log.i("LockButtonSize(): ", " ");
+//        Button buttonFinal = buttons[0][0];
+//        int width = buttonFinal.getWidth();
+//        int height = buttonFinal.getHeight();
+//        Log.i("LOCK: "," BUTTON 0:0  "+height+" : "+width);
+
         for (int row = 0; row < MAX_ROW; row++) {
             for (int col = 0; col < MAX_COL; col++) {
-                Button button = buttons[row][col];
 
+                Button button = buttons[row][col];
                 int width = button.getWidth();
+                int height = button.getHeight();
+//                Log.i("LOCK: "," BUTTON[i][j]  "+height+" : "+width);
                 button.setMinWidth(width);
                 button.setMaxWidth(width);
 
-                int height = button.getHeight();
                 button.setMinHeight(height);
                 button.setMaxHeight(height);
+                Log.i("LockButtonSize(): ", " LOCK_SIZE  " + height + " : " + width);
             }
         }
-        Log.i("Lock: ","Old Size "+buttons[0][1].getHeight()+" : "+buttons[0][1].getWidth());
-        Log.i("Lock: ","Old Size "+buttons[1][1].getHeight()+" : "+buttons[1][1].getWidth());
     }
 
 }

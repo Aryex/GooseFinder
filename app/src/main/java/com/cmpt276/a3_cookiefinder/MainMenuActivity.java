@@ -22,6 +22,28 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         setupPlayButton();
+        setupOptionButton();
+        setupAboutButton();
+    }
+
+    private void setupAboutButton() {
+        Button btnPlay = findViewById(R.id.btnAbout);
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(AboutActivity.getLaunchIntent(MainMenuActivity.this));
+            }
+        });
+    }
+
+    private void setupOptionButton() {
+        Button btnPlay = findViewById(R.id.btnOptions);
+        btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(OptionsActivity.getLaunchIntent(MainMenuActivity.this));
+            }
+        });
     }
 
     private void setupPlayButton() {

@@ -2,4 +2,7 @@
     <string name="app_name">A3 - CookieFinder</string>
     <string name="play">Play</string>
     <string name="game_over">Yay!</string>
+    <string name="board_sizes">Board Sizes</string>
+    <string name="number_of_cookies">Number of cookies:</string>
+    <string name="title_activity_about">AboutActivity</string>
 </resources>

@@ -11,6 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".OptionsActivity" />
         <activity
             android:name=".IntroActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
@@ -21,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".game_activity.GameActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
@@ -29,9 +30,7 @@
         <activity
             android:name=".MainMenuActivity"
             android:configChanges="keyboard|orientation|keyboardHidden|screenSize"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

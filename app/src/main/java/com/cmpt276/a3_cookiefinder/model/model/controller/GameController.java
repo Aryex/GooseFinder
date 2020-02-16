@@ -16,20 +16,42 @@ Cookie Map expect x = Row and y = Col
 * */
 public class GameController {
     private final CookieMap cookieMap;
+    private final Options options;
+
+    private int score = 0;
     private int turnCount = 0;
     private int maxScore;
+
+    private int MAX_ROW;
+    private int MAX_COL;
     private ArrayList<Point> revealedCookies = new ArrayList<>();
     private ArrayList<Point> hintedCookies = new ArrayList<>();
     private boolean[][] cellVisited;
-    private int score = 0;
 
-    public GameController(int maxRow, int maxCol, int maxCookies) {
+
+/*    private GameController(int maxRow, int maxCol, int maxCookies) {
         this.cookieMap = new CookieMap(maxRow,maxCol,maxCookies);
         this.maxScore = maxCookies;
         cellVisited = new boolean[cookieMap.getMaxRow()][cookieMap.getMaxCol()];
         for(boolean[] row : cellVisited){
             for (boolean cell : row){
                 cell = false;
+            }
+        }
+    }*/
+
+    public GameController() {
+        options = Options.getInstance();
+        MAX_ROW = options.getMaxRow();
+        MAX_COL = options.getMaxCol();
+        this.maxScore = options.getCookieNum();
+
+        this.cookieMap = new CookieMap(MAX_ROW, MAX_COL, maxScore);
+        cellVisited = new boolean[MAX_ROW][MAX_COL];
+
+        for(boolean[] row : cellVisited){
+            for (boolean col : row){
+                col = false;
             }
         }
     }
@@ -163,5 +185,12 @@ public class GameController {
 
     public boolean won() {
         return score == maxScore;
+    }
+
+    public int getMAX_ROW() {
+        return MAX_ROW;
+    }
+    public int getMAX_COL() {
+        return MAX_COL;
     }
 }

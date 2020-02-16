@@ -12,11 +12,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cmpt276.a3_cookiefinder.R;
 import com.cmpt276.a3_cookiefinder.model.model.controller.GameController;
@@ -76,19 +77,24 @@ public class GameActivity extends AppCompatActivity {
             for (int col = 0; col < MAX_COL; col++) {
                 final Button button = new Button(this);
 
+                setUpButtonStyle(button);
                 tableRow.addView(button);
                 buttons[row][col] = button;
-                button.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        1.0f));
-                //set button's content padding
-                button.setPadding(0, 0, 0, 0);
-                button.setTextColor(getColor(R.color.utg_white_text));
-                //hook button to controller
+
                 button.setOnClickListener(new onButtonClick(row, col, button));
             }
         }
+    }
+
+    private void setUpButtonStyle(Button button) {
+        button.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.MATCH_PARENT,
+                1.0f));
+
+        button.setPadding(0, 0, 0, 0);
+        button.setTextColor(getColor(R.color.utg_white_text));
+        button.setTextSize(25);
     }
 
     private class onButtonClick implements View.OnClickListener {
@@ -110,18 +116,64 @@ public class GameActivity extends AppCompatActivity {
 
             if (answer == -1) {
                 turnOnImage(button);
-
+                startBounceAnimation(button);
             } else if (gameController.hasCookieAt(buttonPoint)) {
                 buttons[row][col].setText("" + gameController.scanCookieHint(new Point(row, col)));
-
+                startScanAnimation(row, col);
             } else if (!gameController.hasCookieAt(buttonPoint)) {
                 button.setText("" + answer);
-
+                startScanAnimation(row, col);
             }
             updateAroundPoint(buttonPoint);
             updateTrackerText();
             checkWinCondition();
-            //button.setTextSize(24);
+        }
+
+
+    }
+    private void startBounceAnimation(Button button) {
+        Animation rumble = AnimationUtils.loadAnimation(GameActivity.this, R.anim.bounce);
+        button.startAnimation(rumble);
+    }
+
+    private void startScanAnimation(int row, int col) {
+       for(int rowNum = 0; rowNum < MAX_ROW; rowNum ++){
+           final Button button = buttons[rowNum][col];
+           Animation fadeOut = AnimationUtils.loadAnimation(GameActivity.this, R.anim.fadeout);
+
+           fadeOut.setAnimationListener(new FadeIn(button));
+           button.startAnimation(fadeOut);
+       }
+        for(int colNum = 0; colNum < MAX_COL; colNum ++){
+            final Button button = buttons[row][colNum];
+            Animation fadeOut = AnimationUtils.loadAnimation(GameActivity.this, R.anim.fadeout);
+
+            fadeOut.setAnimationListener(new FadeIn(button));
+            button.startAnimation(fadeOut);
+        }
+    }
+
+    private class FadeIn implements Animation.AnimationListener{
+        private Button button;
+
+        public FadeIn(Button button){
+            this.button = button;
+        }
+
+        @Override
+        public void onAnimationStart(Animation animation) {
+
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            Animation fadeIn = AnimationUtils.loadAnimation(GameActivity.this, R.anim.fadein);
+            button.startAnimation(fadeIn);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
         }
     }
 

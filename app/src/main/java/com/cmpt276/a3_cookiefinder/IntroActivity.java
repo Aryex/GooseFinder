@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Layout;
 import android.view.View;
 import android.view.animation.Animation;
@@ -20,6 +21,11 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         animateCogwheel();
+        setupSkipButton();
+
+    }
+
+    private void setupSkipButton() {
         Button btnSkip = findViewById(R.id.btnIntroActSkip);
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,7 +33,6 @@ public class IntroActivity extends AppCompatActivity {
                 endIntro();
             }
         });
-
     }
 
     private void endIntro() {
@@ -38,26 +43,11 @@ public class IntroActivity extends AppCompatActivity {
     private void animateCogwheel() {
         ImageView cogwheel = findViewById(R.id.imageViewCogWheel);
         Animation animation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.rotate);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                endIntro();
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
         cogwheel.startAnimation(animation);
 
         ImageView cogwheelLeft = findViewById(R.id.imageViewCogWheel2);
         Animation animation2 = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.rotate2);
+        cogwheelLeft.startAnimation(animation2);
         animation2.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -66,7 +56,8 @@ public class IntroActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                endIntro();
+                int milisec = 4000;
+                setupDelayedEnd(milisec);
             }
 
             @Override
@@ -74,8 +65,17 @@ public class IntroActivity extends AppCompatActivity {
 
             }
         });
-        cogwheelLeft.startAnimation(animation2);
 
+    }
+
+    private void setupDelayedEnd(int milisec) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                endIntro();
+            }
+        }, milisec);
     }
 
 }

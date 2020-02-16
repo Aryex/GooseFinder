@@ -5,56 +5,80 @@
     android:id="@+id/constraintLayoutIntro"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     tools:context=".IntroActivity">
 
-    <ImageView
-        android:id="@+id/imageViewCookieIntro"
-        android:layout_width="0dp"
-        android:layout_height="151dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="23dp"
-        android:layout_marginRight="23dp"
-        app:layout_constraintEnd_toStartOf="@+id/linearLayoutIntro"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/chocolate_chip_cookie_bitten" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="156dp"
+        android:layout_height="117dp"
+        android:layout_marginEnd="288dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayoutIntro"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutIntro">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutIntro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="161dp"
-        android:layout_marginRight="161dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageViewCookieIntro"
-        app:layout_constraintTop_toTopOf="@+id/imageViewCookieIntro">
+        <ImageView
+            android:id="@+id/imageViewCogWheel"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="36dp"
+            android:background="#003d5aff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewCogWheel2"
+            app:layout_constraintTop_toTopOf="@+id/imageViewCogWheel2"
+            app:layout_constraintVertical_bias="0.157"
+            app:srcCompat="@drawable/cogwheel_icon" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="By mql@sfu.ca"
-            android:textSize="24sp" />
+        <ImageView
+            android:id="@+id/imageViewCogWheel2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#003d5aff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.971"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.104"
+            app:srcCompat="@drawable/cogwheel_icon" />
 
-        <TextView
-            android:id="@+id/textViewAuthor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cookie Finder"
-            android:textSize="36sp" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/btnIntroActSkip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Skip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutIntro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="132dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textViewAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/transport_medium"
+            android:text="Cookie Finder"
+            android:textSize="42sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/transport_medium"
+            android:text="By mql@sfu.ca"
+            android:textSize="24sp" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

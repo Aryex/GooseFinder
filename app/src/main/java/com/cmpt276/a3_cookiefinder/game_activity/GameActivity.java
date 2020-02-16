@@ -84,7 +84,7 @@ public class GameActivity extends AppCompatActivity {
                         1.0f));
                 //set button's content padding
                 button.setPadding(0, 0, 0, 0);
-                button.setTextColor(getColor(R.color.night_sky));
+                button.setTextColor(getColor(R.color.utg_white_text));
                 //hook button to controller
                 button.setOnClickListener(new onButtonClick(row, col, button));
             }

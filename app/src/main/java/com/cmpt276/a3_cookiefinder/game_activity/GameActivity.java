@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,16 +19,27 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cmpt276.a3_cookiefinder.OptionsActivity;
 import com.cmpt276.a3_cookiefinder.R;
 import com.cmpt276.a3_cookiefinder.model.model.controller.GameController;
 import com.cmpt276.a3_cookiefinder.model.model.game_obj.Point;
 
 public class GameActivity extends AppCompatActivity {
+    public static final String SHARED_PREF_HIGH_SCORE_TAG = "HighScore";
+    private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor editor;
+    private static String sharedPrefScoreKey;
+    private static String sharedPrefTurnKey;
+    private static String sharedPrefTotalTurnkey;
+    private int bestTurnAchieved;
+    private int scoreConfig;
 
-    private static int MAX_COL = 3;
-    private static int MAX_ROW = 2;
-    private static int turnCount = 0;
+    private int maxCol = 3;
+    private int maxRow = 2;
+    private int maxScore;
+    private int currentGameTurnCount;
     private Button[][] buttons;
 
     private GameController gameController;
@@ -39,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
             | View.SYSTEM_UI_FLAG_IMMERSIVE;
 
+
     public static Intent getLaunchIntent(Context context) {
         return new Intent(context, GameActivity.class);
     }
@@ -48,24 +61,43 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        final View gameView = getWindow().getDecorView();
-        //gameView.setSystemUiVisibility(IMMERSIVE);
-
-
         gameController = new GameController();
-        MAX_ROW = gameController.getMAX_ROW();
-        MAX_COL = gameController.getMAX_COL();
-        buttons = new Button[MAX_ROW][MAX_COL];
+        maxRow = gameController.getMAX_ROW();
+        maxCol = gameController.getMAX_COL();
+        maxScore = gameController.getMaxScore();
+        buttons = new Button[maxRow][maxCol];
 
-        updateTrackerText();
+        this.sharedPreferences = this.getSharedPreferences(SHARED_PREF_HIGH_SCORE_TAG, MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        makeSharedPrefKeys();
+        updateTotalTurnForCurrentConfig();
+
+        currentGameTurnCount = 0;
+
+        updateHighScore();
+        updateTrackerTexts();
         generateGameBoard();
-        //generateBoardLayout();
 
+        Toast.makeText(this, "TurnScore: " + GameActivity.getBestTurnAchieved(this), Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void makeSharedPrefKeys() {
+        sharedPrefScoreKey = maxRow + "x" + maxCol + "score";
+        sharedPrefTurnKey = maxRow + "x" + maxCol + "turn";
+        sharedPrefTotalTurnkey = maxRow + "x" + maxCol + "total_turn";
+    }
+
+    private void updateTotalTurnForCurrentConfig() {
+        int totalTurn = this.sharedPreferences.getInt(sharedPrefTotalTurnkey,0);
+        totalTurn++;
+        editor.putInt(sharedPrefTotalTurnkey,totalTurn).apply();
     }
 
     private void generateGameBoard() {
         final TableLayout gameTable = findViewById(R.id.gameTableLayout);
-        for (int row = 0; row < MAX_ROW; row++) {
+
+        for (int row = 0; row < maxRow; row++) {
             TableRow tableRow = new TableRow(this);
             tableRow.setLayoutParams(new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT,
@@ -74,7 +106,7 @@ public class GameActivity extends AppCompatActivity {
             ));
             gameTable.addView(tableRow);
 
-            for (int col = 0; col < MAX_COL; col++) {
+            for (int col = 0; col < maxCol; col++) {
                 final Button button = new Button(this);
 
                 setUpButtonStyle(button);
@@ -110,7 +142,9 @@ public class GameActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
+            currentGameTurnCount++;
             lockButtonSize();
+
             Point buttonPoint = new Point(row, col);
             int answer = gameController.select(buttonPoint);
 
@@ -125,26 +159,28 @@ public class GameActivity extends AppCompatActivity {
                 startScanAnimation(row, col);
             }
             updateAroundPoint(buttonPoint);
-            updateTrackerText();
+            updateTrackerTexts();
             checkWinCondition();
         }
 
 
     }
+
     private void startBounceAnimation(Button button) {
         Animation rumble = AnimationUtils.loadAnimation(GameActivity.this, R.anim.bounce);
         button.startAnimation(rumble);
+
     }
 
     private void startScanAnimation(int row, int col) {
-       for(int rowNum = 0; rowNum < MAX_ROW; rowNum ++){
-           final Button button = buttons[rowNum][col];
-           Animation fadeOut = AnimationUtils.loadAnimation(GameActivity.this, R.anim.fadeout);
+        for (int rowNum = 0; rowNum < maxRow; rowNum++) {
+            final Button button = buttons[rowNum][col];
+            Animation fadeOut = AnimationUtils.loadAnimation(GameActivity.this, R.anim.fadeout);
 
-           fadeOut.setAnimationListener(new FadeIn(button));
-           button.startAnimation(fadeOut);
-       }
-        for(int colNum = 0; colNum < MAX_COL; colNum ++){
+            fadeOut.setAnimationListener(new FadeIn(button));
+            button.startAnimation(fadeOut);
+        }
+        for (int colNum = 0; colNum < maxCol; colNum++) {
             final Button button = buttons[row][colNum];
             Animation fadeOut = AnimationUtils.loadAnimation(GameActivity.this, R.anim.fadeout);
 
@@ -153,10 +189,10 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private class FadeIn implements Animation.AnimationListener{
+    private class FadeIn implements Animation.AnimationListener {
         private Button button;
 
-        public FadeIn(Button button){
+        public FadeIn(Button button) {
             this.button = button;
         }
 
@@ -183,21 +219,45 @@ public class GameActivity extends AppCompatActivity {
 
         if (gameController.won()) {
             dialog.show(fragmentManager, "Alert Dialog");
+
+            if (currentGameTurnCount < bestTurnAchieved) {
+                editor.remove(sharedPrefScoreKey);
+                editor.apply();
+                editor.putInt(sharedPrefScoreKey, gameController.getMaxScore());
+                editor.apply();
+
+                editor.remove(sharedPrefTurnKey);
+                editor.apply();
+                editor.putInt(sharedPrefTurnKey, currentGameTurnCount);
+                editor.apply();
+               //OptionsActivity.setBestTurnAchieved(this);
+            }
         }
     }
 
-    private void updateTrackerText() {
+    private void updateTrackerTexts() {
         TextView cookiesScore = findViewById(R.id.textViewCookieScore);
         TextView turnCount = findViewById(R.id.textViewTurnsNumber);
 
         cookiesScore.setText(gameController.getCountedCookies() + " / " + gameController.getMaxScore());
         turnCount.setText(String.valueOf(gameController.getTurnCounts()));
-        //lockButtonSize();
+    }
+
+    private void updateHighScore() {
+        TextView textViewHighScore = findViewById(R.id.textViewHighScore);
+
+        scoreConfig = sharedPreferences.getInt(sharedPrefScoreKey, gameController.getMaxScore());
+        bestTurnAchieved = sharedPreferences.getInt(sharedPrefTurnKey, (maxRow * maxCol + maxScore));
+
+       //scoreConfig = OptionsActivity.getScoreConfig(this);
+       //bestTurnAchieved = OptionsActivity.getBestTurnAchieved(this);
+
+        textViewHighScore.setText(bestTurnAchieved + " turns at " + scoreConfig + " cookies");
     }
 
     private void updateAroundPoint(Point startingPoint) {
-        for (int row = 0; row < MAX_ROW; row++) {
-            for (int col = 0; col < MAX_COL; col++) {
+        for (int row = 0; row < maxRow; row++) {
+            for (int col = 0; col < maxCol; col++) {
                 Point point = new Point(row, col);
                 //if its not the point that im at, update it.
                 if (!point.equals(startingPoint) && gameController.hasVisited(point)) {
@@ -238,8 +298,8 @@ public class GameActivity extends AppCompatActivity {
 //        int height = buttonFinal.getHeight();
 //        Log.i("LOCK: "," BUTTON 0:0  "+height+" : "+width);
 
-        for (int row = 0; row < MAX_ROW; row++) {
-            for (int col = 0; col < MAX_COL; col++) {
+        for (int row = 0; row < maxRow; row++) {
+            for (int col = 0; col < maxCol; col++) {
 
                 Button button = buttons[row][col];
                 int width = button.getWidth();
@@ -253,6 +313,11 @@ public class GameActivity extends AppCompatActivity {
                 Log.i("LockButtonSize(): ", " LOCK_SIZE  " + height + " : " + width);
             }
         }
+    }
+
+    public static int getBestTurnAchieved(Context context){
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREF_HIGH_SCORE_TAG, MODE_PRIVATE);
+        return sharedPref.getInt(sharedPrefTurnKey,0);
     }
 
 }

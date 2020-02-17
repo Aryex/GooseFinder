@@ -1,18 +1,24 @@
 package com.cmpt276.a3_cookiefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Guideline;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.drm.DrmStore;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.util.zip.Inflater;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -21,8 +27,19 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         animateCogwheel();
+        animateTexts();
         setupSkipButton();
 
+    }
+
+    private void animateTexts() {
+        LinearLayout linearLayout = findViewById(R.id.linearLayoutIntro);
+        Guideline guideline = findViewById(R.id.guideline);
+        int layoutWidth = linearLayout.getWidth();
+        int destination = 750;
+        ObjectAnimator animator = ObjectAnimator.ofFloat(linearLayout, "x",1800, destination).setDuration(6000);
+        animator.start();
+        //Log.i("INTRO", ""+ destinationX);
     }
 
     private void setupSkipButton() {

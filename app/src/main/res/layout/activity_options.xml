@@ -7,44 +7,52 @@
     tools:context=".OptionsActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center|center_vertical"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:baselineAligned="false"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Options: "
-            android:textSize="30sp" />
+            android:layout_gravity="bottom"
+            android:gravity="center|center_vertical"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textBoardSize"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp"
-            android:text="@string/number_of_cookies" />
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="Options: "
+                android:textSize="30sp" />
 
-        <RadioGroup
-            android:id="@+id/radioGroupCookiesNum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="50dp"
-            android:paddingRight="50dp">
+            <TextView
+                android:id="@+id/textBoardSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:text="@string/number_of_cookies" />
 
-        </RadioGroup>
+            <RadioGroup
+                android:id="@+id/radioGroupCookiesNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp">
+
+            </RadioGroup>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_gravity="bottom"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingTop="0dp"
@@ -54,6 +62,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
                 android:text="@string/board_sizes" />
@@ -68,5 +77,26 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        app:layout_constraintEnd_toEndOf="@+id/textView13"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:text="Reset high score for current configuration"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.587"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

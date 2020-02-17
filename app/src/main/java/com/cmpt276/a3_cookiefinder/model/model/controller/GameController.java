@@ -32,7 +32,7 @@ public class GameController {
 /*    private GameController(int maxRow, int maxCol, int maxCookies) {
         this.cookieMap = new CookieMap(maxRow,maxCol,maxCookies);
         this.maxScore = maxCookies;
-        cellVisited = new boolean[cookieMap.getMaxRow()][cookieMap.getMaxCol()];
+        cellVisited = new boolean[cookieMap.getSelectedRowNum()][cookieMap.getSelectedColNum()];
         for(boolean[] row : cellVisited){
             for (boolean cell : row){
                 cell = false;
@@ -42,9 +42,9 @@ public class GameController {
 
     public GameController() {
         options = Options.getInstance();
-        MAX_ROW = options.getMaxRow();
-        MAX_COL = options.getMaxCol();
-        this.maxScore = options.getCookieNum();
+        MAX_ROW = options.getSelectedRowNum();
+        MAX_COL = options.getSelectedColNum();
+        this.maxScore = options.getSelectedScoreNum();
 
         this.cookieMap = new CookieMap(MAX_ROW, MAX_COL, maxScore);
         cellVisited = new boolean[MAX_ROW][MAX_COL];

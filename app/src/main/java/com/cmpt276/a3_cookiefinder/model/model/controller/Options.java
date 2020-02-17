@@ -2,12 +2,12 @@ package com.cmpt276.a3_cookiefinder.model.model.controller;
 
 import android.content.SharedPreferences;
 
-import com.cmpt276.a3_cookiefinder.OptionsActivity;
-
 public class Options {
-    private int maxRow = 4;
-    private int maxCol = 6;
-    private int cookieNum = 6;
+    private int selectedRowNum = 4;
+    private int selectedColNum = 6;
+    private int selectedScoreNum = 6;
+
+    private SharedPreferences sharedPreferences;
 
     private static Options instance = new Options();
 
@@ -18,28 +18,33 @@ public class Options {
         return instance;
     }
 
-    public int getMaxRow() {
-        return maxRow;
+    /*public int getHighScore(){
+        String key = ;
+        sharedPreferences = this.sharedPreferences();
+    }*/
+
+    public int getSelectedRowNum() {
+        return selectedRowNum;
     }
 
-    public void setMaxRow(int maxRow) {
-        this.maxRow = maxRow;
+    public void setSelectedRowNum(int selectedRowNum) {
+        this.selectedRowNum = selectedRowNum;
     }
 
-    public int getMaxCol() {
-        return maxCol;
+    public int getSelectedColNum() {
+        return selectedColNum;
     }
 
-    public void setMaxCol(int maxCol) {
-        this.maxCol = maxCol;
+    public void setSelectedColNum(int selectedColNum) {
+        this.selectedColNum = selectedColNum;
     }
 
-    public int getCookieNum() {
-        return cookieNum;
+    public int getSelectedScoreNum() {
+        return selectedScoreNum;
     }
 
-    public void setCookieNum(int cookieNum) {
-        this.cookieNum = cookieNum;
+    public void setSelectedScoreNum(int selectedScoreNum) {
+        this.selectedScoreNum = selectedScoreNum;
     }
 
     private Options(){

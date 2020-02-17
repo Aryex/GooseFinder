@@ -19,17 +19,20 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.cmpt276.a3_cookiefinder.OptionsActivity;
 import com.cmpt276.a3_cookiefinder.R;
 import com.cmpt276.a3_cookiefinder.model.model.controller.GameController;
 import com.cmpt276.a3_cookiefinder.model.model.game_obj.Point;
 
 public class GameActivity extends AppCompatActivity {
-    public final String SHARED_PREF_HIGH_SCORE_TAG = "HighScore";
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    private String sharedPrefScoreKey;
-    private String sharedPrefTurnKey;
+    public static final String SHARED_PREF_HIGH_SCORE_TAG = "HighScore";
+    private static SharedPreferences sharedPreferences;
+    private static SharedPreferences.Editor editor;
+    private static String sharedPrefScoreKey;
+    private static String sharedPrefTurnKey;
+    private static String sharedPrefTotalTurnkey;
     private int bestTurnAchieved;
     private int scoreConfig;
 
@@ -48,6 +51,7 @@ public class GameActivity extends AppCompatActivity {
             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
             | View.SYSTEM_UI_FLAG_IMMERSIVE;
 
+
     public static Intent getLaunchIntent(Context context) {
         return new Intent(context, GameActivity.class);
     }
@@ -65,15 +69,29 @@ public class GameActivity extends AppCompatActivity {
 
         this.sharedPreferences = this.getSharedPreferences(SHARED_PREF_HIGH_SCORE_TAG, MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        sharedPrefScoreKey = maxRow + "x" + maxCol + "score";
-        sharedPrefTurnKey = maxRow + "x" + maxCol + "turn";
-        currentGameTurnCount = 0;
+        makeSharedPrefKeys();
+        updateTotalTurnForCurrentConfig();
 
-        final View gameView = getWindow().getDecorView();
+        currentGameTurnCount = 0;
 
         updateHighScore();
         updateTrackerTexts();
         generateGameBoard();
+
+        Toast.makeText(this, "TurnScore: " + GameActivity.getBestTurnAchieved(this), Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void makeSharedPrefKeys() {
+        sharedPrefScoreKey = maxRow + "x" + maxCol + "score";
+        sharedPrefTurnKey = maxRow + "x" + maxCol + "turn";
+        sharedPrefTotalTurnkey = maxRow + "x" + maxCol + "total_turn";
+    }
+
+    private void updateTotalTurnForCurrentConfig() {
+        int totalTurn = this.sharedPreferences.getInt(sharedPrefTotalTurnkey,0);
+        totalTurn++;
+        editor.putInt(sharedPrefTotalTurnkey,totalTurn).apply();
     }
 
     private void generateGameBoard() {
@@ -212,6 +230,7 @@ public class GameActivity extends AppCompatActivity {
                 editor.apply();
                 editor.putInt(sharedPrefTurnKey, currentGameTurnCount);
                 editor.apply();
+               //OptionsActivity.setBestTurnAchieved(this);
             }
         }
     }
@@ -229,6 +248,9 @@ public class GameActivity extends AppCompatActivity {
 
         scoreConfig = sharedPreferences.getInt(sharedPrefScoreKey, gameController.getMaxScore());
         bestTurnAchieved = sharedPreferences.getInt(sharedPrefTurnKey, (maxRow * maxCol + maxScore));
+
+       //scoreConfig = OptionsActivity.getScoreConfig(this);
+       //bestTurnAchieved = OptionsActivity.getBestTurnAchieved(this);
 
         textViewHighScore.setText(bestTurnAchieved + " turns at " + scoreConfig + " cookies");
     }
@@ -291,6 +313,11 @@ public class GameActivity extends AppCompatActivity {
                 Log.i("LockButtonSize(): ", " LOCK_SIZE  " + height + " : " + width);
             }
         }
+    }
+
+    public static int getBestTurnAchieved(Context context){
+        SharedPreferences sharedPref = context.getSharedPreferences(SHARED_PREF_HIGH_SCORE_TAG, MODE_PRIVATE);
+        return sharedPref.getInt(sharedPrefTurnKey,0);
     }
 
 }

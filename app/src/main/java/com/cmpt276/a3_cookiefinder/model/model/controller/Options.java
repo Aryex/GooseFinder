@@ -18,11 +18,6 @@ public class Options {
         return instance;
     }
 
-    /*public int getHighScore(){
-        String key = ;
-        sharedPreferences = this.sharedPreferences();
-    }*/
-
     public int getSelectedRowNum() {
         return selectedRowNum;
     }

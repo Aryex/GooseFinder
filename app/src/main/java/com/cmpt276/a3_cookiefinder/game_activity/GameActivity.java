@@ -298,8 +298,8 @@ public class GameActivity extends AppCompatActivity {
         AlertFragment dialog = new AlertFragment();
 
         if (gameController.won()) {
+            playGooseSound();
             dialog.show(fragmentManager, "Alert Dialog");
-
             if (currentGameTurnCount < bestTurnAchieved) {
                 editor.remove(sharedPrefScoreKey);
                 editor.apply();
@@ -312,6 +312,24 @@ public class GameActivity extends AppCompatActivity {
                 editor.apply();
             }
         }
+    }
+
+    private void playGooseSound() {
+        MediaPlayer goose;
+
+        Random rand = new Random();
+        int num = rand.nextInt(3);
+        switch (num) {
+            case 0:
+                goose = MediaPlayer.create(this, R.raw.goose_honk);
+                break;
+            case 1:
+                goose = MediaPlayer.create(this, R.raw.goose_honk2);
+                break;
+            default:
+                goose = MediaPlayer.create(this, R.raw.goose_honk3);
+        }
+        goose.start();
     }
 
     private void updateTrackerTexts() {

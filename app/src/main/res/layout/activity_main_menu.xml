@@ -4,26 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/goose_screenshot_11"
-    tools:context=".MainMenuActivity"
-    >
+    android:background="@drawable/utg_splash_reversed"
+    tools:context=".MainMenuActivity">
 
-    <TextView
-        android:id="@+id/textView_mainActTitle"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginRight="244dp"
-        android:text="@string/goose_finder"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="35sp"
-        android:fontFamily="@font/transport_medium"
-        android:textColor="@color/utg_white_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="11dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.125" />
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/textView_mainActTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/transport_medium"
+            android:text="@string/goose_finder"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/utg_white_text"
+            android:textSize="35sp" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/transport_medium"
+            android:text="By mql at sfu.ca"
+            android:textColor="@color/utg_white_text"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -32,11 +46,11 @@
         android:fadeScrollbars="false"
         android:orientation="vertical"
         android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/textView_mainActTitle"
-        app:layout_constraintHorizontal_bias="0.478"
-        app:layout_constraintStart_toStartOf="@+id/textView_mainActTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textView_mainActTitle"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <Button
             android:id="@+id/btnPlay"
@@ -44,12 +58,11 @@
             android:layout_height="70dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/play"
-            android:textSize="24sp"
-            android:fontFamily="@font/transport_medium"
-            android:textColor="@color/utg_white_text"
             android:backgroundTint="#bdbdbd"
-           />
+            android:fontFamily="@font/transport_medium"
+            android:text="@string/play"
+            android:textColor="@color/utg_white_text"
+            android:textSize="24sp" />
 
         <Button
             android:id="@+id/btnOptions"
@@ -57,11 +70,10 @@
             android:layout_height="70dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/options"
-            android:fontFamily="@font/transport_medium"
-            android:textColor="@color/utg_white_text"
             android:backgroundTint="#bdbdbd"
-            />
+            android:fontFamily="@font/transport_medium"
+            android:text="@string/options"
+            android:textColor="@color/utg_white_text" />
 
         <Button
             android:id="@+id/btnAbout"
@@ -69,10 +81,10 @@
             android:layout_height="70dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="@string/about"
+            android:backgroundTint="#bdbdbd"
             android:fontFamily="@font/transport_medium"
-            android:textColor="@color/utg_white_text"
-            android:backgroundTint="#bdbdbd"/>
+            android:text="@string/about"
+            android:textColor="@color/utg_white_text" />
 
     </LinearLayout>
 

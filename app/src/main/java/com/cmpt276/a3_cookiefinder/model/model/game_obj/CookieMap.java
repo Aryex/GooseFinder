@@ -9,8 +9,6 @@ import java.util.Random;
  * Cookies Map represent a map of cookies on a 2D Boolean-array.
  * Cookies map can be constructed given a dimension and cookies amount
    at initialization.
- * Cookies map has no Setters.
- * Cookies map provide getters.
  * Cookies map check for cookies at coordinate.
  * Cookies map expect x = Row and y = Col
  * */

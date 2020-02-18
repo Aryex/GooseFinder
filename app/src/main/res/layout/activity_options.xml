@@ -102,8 +102,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="64dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/transport_medium"
-                android:text="@string/configuration"
+                android:text="@string/size"
                 android:textColor="@color/utg_white_text" />
 
             <TextView
@@ -139,6 +139,33 @@
                 android:fontFamily="@font/transport_medium"
                 android:paddingLeft="15dp"
                 android:text="@string/config"
+                android:textAlignment="textEnd"
+                android:textColor="@color/utg_white_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="324dp"
+            tools:layout_editor_absoluteY="252dp">
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/transport_medium"
+                android:text="Max Score"
+                android:textColor="@color/utg_white_text" />
+
+            <TextView
+                android:id="@+id/textViewMaxScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/transport_medium"
+                android:text="N/A"
                 android:textAlignment="textEnd"
                 android:textColor="@color/utg_white_text" />
 
@@ -162,7 +189,7 @@
 
             <TextView
                 android:id="@+id/textViewStatNumGame"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"

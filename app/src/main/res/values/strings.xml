@@ -3,7 +3,7 @@
     <string name="play">Play</string>
     <string name="game_over">You found all the Goose!</string>
     <string name="board_sizes">Board Sizes</string>
-    <string name="number_of_cookies">Number of cookies</string>
+    <string name="number_of_cookies">Max Score</string>
     <string name="title_activity_about">AboutActivity</string>
     <string name="goose_finder">Goose Finder</string>
     <string name="options">Options</string>
@@ -28,4 +28,5 @@
         The number is a hint on how many geese are on that row and column of the button.\n
         You may click on the goose to get the hint.\n
         How fast can you find all the goose?</string>
+    <string name="size">Size</string>
 </resources>

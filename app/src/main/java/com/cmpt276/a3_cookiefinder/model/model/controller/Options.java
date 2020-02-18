@@ -2,6 +2,9 @@ package com.cmpt276.a3_cookiefinder.model.model.controller;
 
 import android.content.SharedPreferences;
 
+/*
+Singleton for communicating options setting
+*/
 public class Options {
     private int selectedRowNum = 4;
     private int selectedColNum = 6;

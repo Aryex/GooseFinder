@@ -22,15 +22,17 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.cmpt276.a3_cookiefinder.R;
+import com.cmpt276.a3_cookiefinder.SharedPrefKey;
 import com.cmpt276.a3_cookiefinder.model.model.controller.GameController;
 import com.cmpt276.a3_cookiefinder.model.model.game_obj.Point;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import static com.cmpt276.a3_cookiefinder.SharedPrefKey.SHARED_PREF_HIGH_SCORE_TAG;
+
 public class GameActivity extends AppCompatActivity {
 
-    public static final String SHARED_PREF_HIGH_SCORE_TAG = "HighScore";
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private String sharedPrefScoreKey;
@@ -69,11 +71,16 @@ public class GameActivity extends AppCompatActivity {
         updateTotalTurnForCurrentConfig();
         currentGameTurnCount = 0;
 
+        updateDimensionText();
         updateHighScore();
         updateTrackerTexts();
         setupGameBoard();
     }
 
+    private void updateDimensionText() {
+        TextView textView = findViewById(R.id.textViewDimension);
+        textView.setText("Dimension: " + maxRow + "x" + maxCol);
+    }
 
 
     private void setupGameBoard() {
@@ -119,6 +126,7 @@ public class GameActivity extends AppCompatActivity {
         private int row;
         private int col;
         private Button button;
+
         public onButtonClick(int row, int col, Button button) {
             this.row = row;
             this.col = col;
@@ -152,6 +160,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
     }
+
     private void playScanSound(Button button) {
         MediaPlayer scanSound;
 
@@ -250,6 +259,7 @@ public class GameActivity extends AppCompatActivity {
     private class FadeIn implements Animation.AnimationListener {
 
         private Button button;
+
         public FadeIn(Button button) {
             this.button = button;
         }
@@ -271,6 +281,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
     }
+
     private void checkWinCondition() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         AlertFragment dialog = new AlertFragment();
@@ -295,14 +306,14 @@ public class GameActivity extends AppCompatActivity {
 
     private void revealAll() {
         int row = 0;
-       for(Button[] buttonsRow : buttons){
-           int col = 0;
-           for (Button button: buttonsRow){
-               button.setText("" + gameController.scanCookieHint(new Point(row, col)));
-               col++;
-           }
-           row++;
-       }
+        for (Button[] buttonsRow : buttons) {
+            int col = 0;
+            for (Button button : buttonsRow) {
+                button.setText("" + gameController.scanCookieHint(new Point(row, col)));
+                col++;
+            }
+            row++;
+        }
     }
 
     private void playGooseSound() {
@@ -324,9 +335,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void makeSharedPrefKeys() {
-        sharedPrefScoreKey = maxRow + "x" + maxCol + ":" + maxScore + "score";
-        sharedPrefTurnKey = maxRow + "x" + maxCol + ":" + maxScore + "turn";
-        sharedPrefTotalTurnkey = maxRow + "x" + maxCol + ":" + maxScore + "total_turn";
+        sharedPrefScoreKey = SharedPrefKey.makeSharedPrefScorekey(maxRow, maxCol, maxScore);
+        sharedPrefTurnKey = SharedPrefKey.makeSharedPrefTurnKey(maxRow, maxCol, maxScore);
+        sharedPrefTotalTurnkey = SharedPrefKey.makeSharedPrefTotalTurnKey(maxRow, maxCol, maxScore);
     }
 
     private void updateTotalTurnForCurrentConfig() {
@@ -352,29 +363,10 @@ public class GameActivity extends AppCompatActivity {
         textViewHighScore.setText("Took " + bestTurnAchieved + " turns for " + scoreConfig + " score.");
     }
 
-    private void updateHintAroundPoint(Point startingPoint) {
-        for (int row = 0; row < maxRow; row++) {
-            for (int col = 0; col < maxCol; col++) {
-                Point point = new Point(row, col);
-
-                //if its not the point that im at, update it.
-                if (!point.equals(startingPoint) && gameController.hasVisited(point)) {
-                    if (!gameController.hasCookieAt(point)) {
-                        buttons[row][col].setText("" + gameController.scanCookieHint(new Point(row, col)));
-                    } else {
-                        if (gameController.hasHintedCookieAt(point)) {
-                            buttons[row][col].setText("" + gameController.scanCookieHint(new Point(row, col)));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void updateHintAroundPoint2(Point startingPoint){
+    private void updateHintAroundPoint2(Point startingPoint) {
         ArrayList<Point> pointsToBeUpdated = gameController.getPointsToUpdate(startingPoint);
 
-        for(Point point : pointsToBeUpdated){
+        for (Point point : pointsToBeUpdated) {
             int row = point.getX();
             int col = point.getY();
 

@@ -1,8 +1,25 @@
 <resources>
     <string name="app_name">A3 - CookieFinder</string>
     <string name="play">Play</string>
-    <string name="game_over">Yay!</string>
+    <string name="game_over">Yay.</string>
     <string name="board_sizes">Board Sizes</string>
-    <string name="number_of_cookies">Number of cookies:</string>
+    <string name="number_of_cookies">Number of cookies</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="goose_finder">Goose Finder</string>
+    <string name="options">Options</string>
+    <string name="about">About</string>
+    <string name="skip">Skip</string>
+    <string name="by_mql_sfu_ca">By mql@sfu.ca</string>
+    <string name="goose_finder_Intro">Goose Finder</string>
+    <string name="score">Score:</string>
+    <string name="high_score">High Score</string>
+    <string name="_1_score_in_1_turns">1 Score in 1 turns</string>
+    <string name="turns">Turns:</string>
+    <string name="statistic">Statistic</string>
+    <string name="configuration">Configuration</string>
+    <string name="config">Config</string>
+    <string name="number_of_games">Number of Games</string>
+    <string name="best_turn">Best Turn</string>
+    <string name="reset">Reset</string>
+    <string name="geese">geese.</string>
 </resources>

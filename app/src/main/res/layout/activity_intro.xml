@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@drawable/utg_splash"
     tools:context=".IntroActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -21,6 +22,7 @@
         android:layout_height="117dp"
         android:layout_marginStart="124dp"
         android:layout_marginTop="104dp"
+        android:background="#003d5aff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -58,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Skip"
+        android:text="@string/skip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -68,8 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="124dp"
         android:layout_marginEnd="16dp"
-        android:orientation="vertical"
         android:background="#003d5aff"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.181"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -79,18 +81,18 @@
             android:id="@+id/textViewAuthor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/transport_medium"
             android:background="#003d5aff"
-            android:text="Cookie Finder"
+            android:fontFamily="@font/transport_medium"
+            android:text="@string/goose_finder_Intro"
             android:textSize="42sp" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/transport_medium"
             android:background="#003d5aff"
-            android:text="By mql@sfu.ca"
+            android:fontFamily="@font/transport_medium"
+            android:text="@string/by_mql_sfu_ca"
             android:textSize="24sp" />
     </LinearLayout>
 

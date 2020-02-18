@@ -21,8 +21,16 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:textColor">@color/utg_white_text</item>
-        <item name="android:background">@color/utg_blue_backgruond</item>
+        <item name="android:background">#00ffffff</item>
         <item name="android:fontFamily">@font/font</item>
     </style>
 
+    <style name="UntitledGooseGameDialog">
+        <item name="android:textColor">@color/utg_white_text</item>
+        <item name="android:fontFamily">@font/font</item>
+        <item name="android:headerDividersEnabled">true</item>
+
+    </style>
+
 </resources>
+<!-- -->

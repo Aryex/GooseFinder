@@ -41,7 +41,7 @@ public class MainMenuActivity extends AppCompatActivity {
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(OptionsActivity.getLaunchIntent(MainMenuActivity.this));
+                startActivity(OptionsActivity.makeLaunchIntent(MainMenuActivity.this));
             }
         });
     }

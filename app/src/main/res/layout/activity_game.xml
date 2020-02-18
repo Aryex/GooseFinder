@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/goose_screenshot_14"
     tools:context=".game_activity.GameActivity">
 
     <FrameLayout
@@ -26,7 +27,7 @@
             android:paddingLeft="30dp"
             android:paddingRight="30dp"
             android:paddingBottom="30dp"
-            android:stretchColumns="*"></TableLayout>
+            android:stretchColumns="*" />
     </FrameLayout>
 
     <TextView
@@ -34,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Cookies:"
+        android:text="@string/score"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBaseline_toBaselineOf="@+id/textViewCookieScore"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="34dp"
-        android:text="Score"
+        android:text="@string/score"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="31dp"
-        android:text="Turn Number"
+        android:text="@string/turns"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@+id/frameLayout" />
@@ -64,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="High Score"
+        android:text="@string/high_score"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +75,7 @@
         android:id="@+id/textViewHighScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 cookies in 1 turns"
+        android:text="@string/_1_score_in_1_turns"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="9dp"
-        android:text="Turns:"
+        android:text="@string/turns"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toStartOf="@+id/textViewTurnsNumber" />

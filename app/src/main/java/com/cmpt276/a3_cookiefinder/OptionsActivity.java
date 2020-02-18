@@ -1,10 +1,14 @@
 package com.cmpt276.a3_cookiefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,25 +31,14 @@ public class OptionsActivity extends AppCompatActivity {
     private int selectedMaxScore;
 
     private static SharedPreferences highScoreSharedPref;
-    private SharedPreferences.Editor editor;
     private  String sharedPrefScoreKey;
     private String sharedPrefBestTurnKey;
     private String sharedPrefTotalTurnkey;
     private Options options;
 
 
-    private static SharedPreferences highScoreSharedPrefs;
-    private static SharedPreferences.Editor highScoreEditor;
-
-    public static Intent getLaunchIntent(Context context) {
+    public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, OptionsActivity.class);
-    }
-
-    public static int getScoreConfig(Context context) {
-        highScoreSharedPrefs = context.getSharedPreferences("HighScore", MODE_PRIVATE);
-        Options options = Options.getInstance();
-        String key = options.getSelectedRowNum() + "x" + options.getSelectedColNum() + "score";
-        return highScoreSharedPref.getInt(key, options.getSelectedScoreNum());
     }
 
     @Override
@@ -58,10 +51,10 @@ public class OptionsActivity extends AppCompatActivity {
 
         makeBoardSizeOptions();
         makeCookieNumOptions();
+
         updateSharedPrefKeys();
         updateStatBoard();
 
-        //Toast.makeText(this, "TurnScore: " + highScoreSharedPref.getInt(selectedRowSize + "x" + selectedColSize + "turn", -1), Toast.LENGTH_SHORT).show();
     }
 
     private void updateSharedPrefKeys() {
@@ -76,18 +69,21 @@ public class OptionsActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = highScoreSharedPref.edit();
-                editor.remove(sharedPrefScoreKey);
-                editor.apply();
-                editor.remove(sharedPrefBestTurnKey);
-                editor.apply();
-                editor.remove(sharedPrefTotalTurnkey);
-                editor.apply();
-
+                clearSharedPref();
                 updateStatBoard();
                 Toast.makeText(OptionsActivity.this, "High Score Reset!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void clearSharedPref() {
+        SharedPreferences.Editor editor = highScoreSharedPref.edit();
+        editor.remove(sharedPrefScoreKey);
+        editor.apply();
+        editor.remove(sharedPrefBestTurnKey);
+        editor.apply();
+        editor.remove(sharedPrefTotalTurnkey);
+        editor.apply();
     }
 
     private void updateStatBoard() {
@@ -124,11 +120,14 @@ public class OptionsActivity extends AppCompatActivity {
     private void makeCookieNumOptions() {
         final RadioGroup radioGroup = findViewById(R.id.radioGroupCookiesNum);
         int[] cookieNums = getResources().getIntArray(R.array.cookie_num);
+        ColorStateList white = ContextCompat.getColorStateList(this, R.color.utg_white_text);
 
         boolean setAsDefault = false;
         for (final int cookieNum : cookieNums) {
             final RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(cookieNum + " cookies.");
+            radioButton.setText(getString(R.string.geese) + cookieNum);
+            radioButton.setTextColor(white);
+            radioButton.setButtonTintList(white);
 
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -157,6 +156,7 @@ public class OptionsActivity extends AppCompatActivity {
         final RadioGroup radioGroup = findViewById(R.id.radioGroupBoardSize);
         int[] colSizes = getResources().getIntArray(R.array.colSizes);
         int[] rowSizes = getResources().getIntArray(R.array.rowSizes);
+        ColorStateList white = ContextCompat.getColorStateList(this, R.color.utg_white_text);
 
         if (colSizes.length != rowSizes.length) {
             Toast.makeText(OptionsActivity.this, "Resource data error.", Toast.LENGTH_LONG).show();
@@ -169,6 +169,8 @@ public class OptionsActivity extends AppCompatActivity {
             final int col = colSizes[i];
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText("" + row + "x" + col);
+            radioButton.setTextColor(white);
+            radioButton.setButtonTintList(white);
 
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -195,7 +197,7 @@ public class OptionsActivity extends AppCompatActivity {
         }
     }
 
-    private void saveBoardSize(int row, int col) {
+    /*private void saveBoardSize(int row, int col) {
         editor.putInt(ROW_SHARED_PREF_TAG, row);
         editor.putInt(COL_SHARE_PREF_TAG, col);
         editor.apply();
@@ -205,6 +207,6 @@ public class OptionsActivity extends AppCompatActivity {
         editor.putInt(COOKIE_NUM_SHARED_PREF_TAG, cookieNum);
         editor.apply();
     }
-
+*/
 
 }

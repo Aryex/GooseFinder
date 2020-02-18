@@ -54,7 +54,7 @@ public class IntroActivity extends AppCompatActivity {
 
     private void endIntro() {
         startActivity(MainMenuActivity.getLaunchIntent(IntroActivity.this));
-        finish();
+        this.finish();
     }
 
     private void animateCogwheel() {

@@ -62,7 +62,10 @@
         android:layout_marginBottom="16dp"
         android:text="@string/skip"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/transport_medium"
+        android:textColor="@color/utg_white_text"
+        android:backgroundTint="#bdbdbd"/>
 
     <LinearLayout
         android:id="@+id/linearLayoutIntro"
@@ -83,6 +86,7 @@
             android:layout_height="wrap_content"
             android:background="#003d5aff"
             android:fontFamily="@font/transport_medium"
+            android:textColor="@color/utg_white_text"
             android:text="@string/goose_finder_Intro"
             android:textSize="42sp" />
 
@@ -91,9 +95,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#003d5aff"
-            android:fontFamily="@font/transport_medium"
             android:text="@string/by_mql_sfu_ca"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:fontFamily="@font/transport_medium"
+            android:textColor="@color/utg_white_text"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

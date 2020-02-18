@@ -31,7 +31,7 @@ public class AlertFragment extends AppCompatDialogFragment {
 
         //build alert dialog in our view
         return new AlertDialog.Builder(getActivity())
-                .setTitle("Game Over!")
+                .setTitle("Nice.")
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, listener)
                 .create();

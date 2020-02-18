@@ -25,12 +25,7 @@
         <item name="android:fontFamily">@font/font</item>
     </style>
 
-    <style name="UntitledGooseGameDialog">
-        <item name="android:textColor">@color/utg_white_text</item>
-        <item name="android:fontFamily">@font/font</item>
-        <item name="android:headerDividersEnabled">true</item>
 
-    </style>
 
 </resources>
 <!-- -->

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -36,6 +37,8 @@ public class GameActivity extends AppCompatActivity {
     private static String sharedPrefTotalTurnkey;
     private int bestTurnAchieved;
     private int scoreConfig;
+
+    private Typeface transportMedium;
 
     private int maxCol = 3;
     private int maxRow = 2;
@@ -128,6 +131,7 @@ public class GameActivity extends AppCompatActivity {
 
         button.setPadding(0, 0, 0, 0);
         button.setTextColor(getColor(R.color.utg_white_text));
+
         button.setTextSize(25);
     }
 
@@ -146,7 +150,6 @@ public class GameActivity extends AppCompatActivity {
         public void onClick(View v) {
             currentGameTurnCount++;
             lockButtonSize();
-
             Point buttonPoint = new Point(row, col);
             int answer = gameController.select(buttonPoint);
 

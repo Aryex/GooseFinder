@@ -9,7 +9,7 @@
         android:label="Goose Finder"
         android:roundIcon="@drawable/goose_icon"
         android:supportsRtl="true"
-        android:theme="@style/UntitledGooseGame."
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".AboutActivity"></activity>
         <activity android:name=".OptionsActivity" />

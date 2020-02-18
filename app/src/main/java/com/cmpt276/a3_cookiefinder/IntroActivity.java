@@ -6,6 +6,8 @@ import androidx.constraintlayout.widget.Guideline;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.drm.DrmStore;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;

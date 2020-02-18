@@ -164,6 +164,7 @@ public class OptionsActivity extends AppCompatActivity {
             final int row = rowSizes[i];
             final int col = colSizes[i];
             RadioButton radioButton = new RadioButton(this);
+
             radioButton.setText("" + row + "x" + col);
             radioButton.setTextColor(white);
             radioButton.setButtonTintList(white);

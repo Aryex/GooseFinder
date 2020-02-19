@@ -391,26 +391,15 @@ public class GameActivity extends AppCompatActivity {
     private void turnOnImage(Button button) {
         int newWidth = button.getWidth();
         int newHeight = button.getHeight();
-        /*Log.i("TurnOnImage(): ", " ");
-        Log.i("TurnOnImage(): ", "Button Size Max " + button.getMaxHeight() + " : " + button.getMaxWidth());
-        Log.i("TurnOnImage(): ", "Button Size min " + newHeight + " : " + newWidth);*/
 
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.goose);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
-        //scaledBitmap.setHeight(scaledBitmap.getHeight()+10);
-
-       // Log.i("TurnOnImage(): ", " scaleBitMap Size  " + scaledBitmap.getHeight() + " : " + scaledBitmap.getWidth());
 
         Resources resource = getResources();
         button.setBackground(new BitmapDrawable(resource, scaledBitmap));
     }
 
     private void lockButtonSize() {
-       // Log.i("LockButtonSize(): ", " ");
-//        Button buttonFinal = buttons[0][0];
-//        int width = buttonFinal.getWidth();
-//        int height = buttonFinal.getHeight();
-//        Log.i("LOCK: "," BUTTON 0:0  "+height+" : "+width);
 
         for (int row = 0; row < maxRow; row++) {
             for (int col = 0; col < maxCol; col++) {
@@ -418,13 +407,13 @@ public class GameActivity extends AppCompatActivity {
                 Button button = buttons[row][col];
                 int width = button.getWidth();
                 int height = button.getHeight();
-//                Log.i("LOCK: "," BUTTON[i][j]  "+height+" : "+width);
+
                 button.setMinWidth(width);
                 button.setMaxWidth(width);
 
                 button.setMinHeight(height);
                 button.setMaxHeight(height);
-               // Log.i("LockButtonSize(): ", " LOCK_SIZE  " + height + " : " + width);
+
             }
         }
     }

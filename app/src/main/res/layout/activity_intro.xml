@@ -37,7 +37,7 @@
             app:layout_constraintEnd_toEndOf="@+id/imageViewCogWheel2"
             app:layout_constraintTop_toTopOf="@+id/imageViewCogWheel2"
             app:layout_constraintVertical_bias="0.157"
-            app:srcCompat="@drawable/cogwheel_icon" />
+            app:srcCompat="@drawable/cogwheel_icon2" />
 
         <ImageView
             android:id="@+id/imageViewCogWheel2"
@@ -50,7 +50,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.104"
-            app:srcCompat="@drawable/cogwheel_icon" />
+            app:srcCompat="@drawable/cogwheel_icon2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cmpt276.a3_cookiefinder.R;
 import com.cmpt276.a3_cookiefinder.SharedPrefKey;
@@ -143,15 +144,15 @@ public class GameActivity extends AppCompatActivity {
             if (answer == -1) {
                 turnOnImage(button);
                 startBounceAnimation(button);
-                playFoundSound(button);
+                playFoundSound();
             } else if (gameController.hasCookieAt(buttonPoint)) {
                 buttons[row][col].setText("" + gameController.scanCookieHint(new Point(row, col)));
                 startScanAnimation(row, col);
-                playScanSound(button);
+                playScanSound();
             } else if (!gameController.hasCookieAt(buttonPoint)) {
                 button.setText("" + answer);
                 startScanAnimation(row, col);
-                playScanSound(button);
+                playScanSound();
             }
 
             updateHintAroundPoint2(buttonPoint);
@@ -161,8 +162,9 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void playScanSound(Button button) {
-        MediaPlayer scanSound;
+    private void playScanSound() {
+        final MediaPlayer scanSound;
+        Log.i("playScanSound: ", "");
 
         Random rand = new Random();
         int num = rand.nextInt(10);
@@ -201,10 +203,16 @@ public class GameActivity extends AppCompatActivity {
                 scanSound = MediaPlayer.create(this, R.raw.scan);
         }
         scanSound.start();
+        scanSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                scanSound.release();
+            }
+        });
     }
 
-    private void playFoundSound(Button button) {
-        MediaPlayer foundSound;
+    private void playFoundSound() {
+        final MediaPlayer foundSound;
 
         Random rand = new Random();
         int num = rand.nextInt(7);
@@ -231,6 +239,12 @@ public class GameActivity extends AppCompatActivity {
                 foundSound = MediaPlayer.create(this, R.raw.found7);
         }
         foundSound.start();
+        foundSound.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                foundSound.release();
+            }
+        });
     }
 
     private void startBounceAnimation(Button button) {
@@ -377,22 +391,22 @@ public class GameActivity extends AppCompatActivity {
     private void turnOnImage(Button button) {
         int newWidth = button.getWidth();
         int newHeight = button.getHeight();
-        Log.i("TurnOnImage(): ", " ");
+        /*Log.i("TurnOnImage(): ", " ");
         Log.i("TurnOnImage(): ", "Button Size Max " + button.getMaxHeight() + " : " + button.getMaxWidth());
-        Log.i("TurnOnImage(): ", "Button Size min " + newHeight + " : " + newWidth);
+        Log.i("TurnOnImage(): ", "Button Size min " + newHeight + " : " + newWidth);*/
 
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.goose);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originalBitmap, newWidth, newHeight, true);
         //scaledBitmap.setHeight(scaledBitmap.getHeight()+10);
 
-        Log.i("TurnOnImage(): ", " scaleBitMap Size  " + scaledBitmap.getHeight() + " : " + scaledBitmap.getWidth());
+       // Log.i("TurnOnImage(): ", " scaleBitMap Size  " + scaledBitmap.getHeight() + " : " + scaledBitmap.getWidth());
 
         Resources resource = getResources();
         button.setBackground(new BitmapDrawable(resource, scaledBitmap));
     }
 
     private void lockButtonSize() {
-        Log.i("LockButtonSize(): ", " ");
+       // Log.i("LockButtonSize(): ", " ");
 //        Button buttonFinal = buttons[0][0];
 //        int width = buttonFinal.getWidth();
 //        int height = buttonFinal.getHeight();
@@ -410,7 +424,7 @@ public class GameActivity extends AppCompatActivity {
 
                 button.setMinHeight(height);
                 button.setMaxHeight(height);
-                Log.i("LockButtonSize(): ", " LOCK_SIZE  " + height + " : " + width);
+               // Log.i("LockButtonSize(): ", " LOCK_SIZE  " + height + " : " + width);
             }
         }
     }

@@ -167,37 +167,22 @@ public class GameActivity extends AppCompatActivity {
         Log.i("playScanSound: ", "");
 
         Random rand = new Random();
-        int num = rand.nextInt(10);
+        int num = rand.nextInt(6);
         switch (num) {
-            case 1:
+            case 0:
                 scanSound = MediaPlayer.create(this, R.raw.scan3);
                 break;
-            case 2:
+            case 1:
                 scanSound = MediaPlayer.create(this, R.raw.scan4);
                 break;
-            case 3:
-                scanSound = MediaPlayer.create(this, R.raw.sacn2);
-                break;
-            case 4:
-                scanSound = MediaPlayer.create(this, R.raw.scan5);
-                break;
-            case 5:
-                scanSound = MediaPlayer.create(this, R.raw.scan6);
-                break;
-            case 6:
+            case 2:
                 scanSound = MediaPlayer.create(this, R.raw.scan7);
                 break;
-            case 7:
-                scanSound = MediaPlayer.create(this, R.raw.scan8);
+            case 3:
+                scanSound = MediaPlayer.create(this, R.raw.scan5);
                 break;
-            case 8:
-                scanSound = MediaPlayer.create(this, R.raw.scan9);
-                break;
-            case 9:
-                scanSound = MediaPlayer.create(this, R.raw.scan10);
-                break;
-            case 10:
-                scanSound = MediaPlayer.create(this, R.raw.scan11);
+            case 4:
+                scanSound = MediaPlayer.create(this, R.raw.scan6);
                 break;
             default:
                 scanSound = MediaPlayer.create(this, R.raw.scan);
@@ -215,25 +200,19 @@ public class GameActivity extends AppCompatActivity {
         final MediaPlayer foundSound;
 
         Random rand = new Random();
-        int num = rand.nextInt(7);
+        int num = rand.nextInt(5);
         switch (num) {
             case 0:
                 foundSound = MediaPlayer.create(this, R.raw.found1);
                 break;
             case 1:
-                foundSound = MediaPlayer.create(this, R.raw.found2);
+                foundSound = MediaPlayer.create(this, R.raw.found6);
                 break;
             case 2:
                 foundSound = MediaPlayer.create(this, R.raw.found3);
                 break;
             case 3:
-                foundSound = MediaPlayer.create(this, R.raw.found4);
-                break;
-            case 4:
                 foundSound = MediaPlayer.create(this, R.raw.found5);
-                break;
-            case 5:
-                foundSound = MediaPlayer.create(this, R.raw.found6);
                 break;
             default:
                 foundSound = MediaPlayer.create(this, R.raw.found7);
@@ -249,8 +228,40 @@ public class GameActivity extends AppCompatActivity {
 
     private void startBounceAnimation(Button button) {
         Animation rumble = AnimationUtils.loadAnimation(GameActivity.this, R.anim.bounce);
+        rumble.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                disableAllButton();
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                enableAllButtons();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         button.startAnimation(rumble);
 
+    }
+
+    private void enableAllButtons() {
+        for(Button[] row : buttons){
+            for(Button button : row){
+                button.setEnabled(true);
+            }
+        }
+    }
+
+    private void disableAllButton() {
+        for(Button[] row : buttons){
+            for(Button button : row){
+                button.setEnabled(false);
+            }
+        }
     }
 
     private void startScanAnimation(int row, int col) {

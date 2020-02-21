@@ -29,4 +29,6 @@
         You may click on the goose to get the hint.\n
         How fast can you find all the goose?</string>
     <string name="size">Size</string>
+    <string name="loading">Loading...</string>
+    <string name="by_alex_le">By Alex Le</string>
 </resources>

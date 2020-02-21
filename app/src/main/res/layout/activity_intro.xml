@@ -36,7 +36,6 @@
         android:layout_marginTop="72dp"
         android:layout_marginEnd="16dp"
         android:background="#003d5aff"
-        android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.346"
@@ -57,9 +56,10 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
             android:background="#003d5aff"
             android:fontFamily="@font/transport_medium"
-            android:text="@string/by_mql_sfu_ca"
+            android:text="@string/by_alex_le"
             android:textColor="@color/utg_white_text"
             android:textSize="24sp" />
     </LinearLayout>
@@ -81,7 +81,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="@font/transport_medium"
-        android:text="Loading..."
+        android:text="@string/loading"
         android:textColor="@color/utg_white_text"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewCogWheel2"

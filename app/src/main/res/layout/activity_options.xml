@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/goose_screenshot_11"
     tools:context=".OptionsActivity">
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/transport_medium"
         android:padding="20dp"
-        android:text="Options: "
+        android:text="@string/options"
+        android:textColor="@color/utg_white_text"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -35,9 +38,11 @@
                 android:id="@+id/textBoardSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/transport_medium"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="@string/number_of_cookies" />
+                android:text="@string/number_of_cookies"
+                android:textColor="@color/utg_white_text" />
 
             <RadioGroup
                 android:id="@+id/radioGroupCookiesNum"
@@ -65,16 +70,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/transport_medium"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="@string/board_sizes" />
+                android:text="@string/board_sizes"
+                android:textColor="@color/utg_white_text" />
 
             <RadioGroup
                 android:id="@+id/radioGroupBoardSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/transport_medium"
                 android:paddingLeft="50dp"
-                android:paddingRight="50dp" />
+                android:paddingRight="50dp"
+                android:textColor="@color/utg_white_text" />
 
         </LinearLayout>
     </LinearLayout>
@@ -93,8 +102,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="84dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="64dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -104,8 +113,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
-            android:text="Statistic:"
-            android:textAlignment="center" />
+            android:fontFamily="@font/transport_medium"
+            android:text="@string/statistic"
+            android:textAlignment="center"
+            android:textColor="@color/utg_white_text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,14 +128,46 @@
                 android:id="@+id/textView18"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Configuration:" />
+                android:fontFamily="@font/transport_medium"
+                android:text="@string/size"
+                android:textColor="@color/utg_white_text" />
 
             <TextView
                 android:id="@+id/textViewConfigStat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Config"
-                android:textAlignment="textEnd" />
+                android:fontFamily="@font/transport_medium"
+                android:paddingLeft="15dp"
+                android:text="@string/config"
+                android:textAlignment="textEnd"
+                android:textColor="@color/utg_white_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="324dp"
+            tools:layout_editor_absoluteY="252dp">
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/transport_medium"
+                android:text="Max Score"
+                android:textColor="@color/utg_white_text" />
+
+            <TextView
+                android:id="@+id/textViewMaxScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/transport_medium"
+                android:text="N/A"
+                android:textAlignment="textEnd"
+                android:textColor="@color/utg_white_text" />
 
         </LinearLayout>
 
@@ -139,16 +182,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/transport_medium"
                 android:gravity="bottom"
-                android:text="Number of Games: " />
+                android:text="@string/number_of_games"
+                android:textColor="@color/utg_white_text" />
 
             <TextView
                 android:id="@+id/textViewStatNumGame"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text=" N/A" />
+                android:fontFamily="@font/transport_medium"
+                android:paddingLeft="15dp"
+                android:text=" N/A"
+                android:textColor="@color/utg_white_text" />
 
         </LinearLayout>
 
@@ -164,7 +212,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="Best Turn:" />
+                android:fontFamily="@font/transport_medium"
+                android:text="@string/best_turn"
+                android:textColor="@color/utg_white_text" />
 
             <TextView
                 android:id="@+id/textViewStatBestTurn"
@@ -172,8 +222,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/transport_medium"
+                android:paddingLeft="15dp"
                 android:text="N/A"
-                android:textAlignment="viewEnd" />
+                android:textAlignment="viewEnd"
+                android:textColor="@color/utg_white_text" />
         </LinearLayout>
 
         <Button
@@ -182,7 +235,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
-            android:text="Reset" />
+            android:backgroundTint="#bdbdbd"
+            android:fontFamily="@font/transport_medium"
+            android:text="@string/reset"
+            android:textColor="@color/utg_white_text" />
 
     </LinearLayout>
 

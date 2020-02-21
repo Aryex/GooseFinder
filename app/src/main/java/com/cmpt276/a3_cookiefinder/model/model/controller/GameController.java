@@ -8,8 +8,8 @@ import java.util.ArrayList;
 /*
 Game Controller manages game logic on a given board.
 Main interaction will be with select(Point point):
-    at a given point, it will return -1 for cookies
-    found, and Int for hints count.
+    at a given point, it will return -1 for cookies found,
+    and Int for hints count.
 Game controller remembers found-cookies and as such
     hints count will not include them.
 Cookie Map expect x = Row and y = Col
@@ -26,19 +26,8 @@ public class GameController {
     private int MAX_COL;
     private ArrayList<Point> revealedCookies = new ArrayList<>();
     private ArrayList<Point> hintedCookies = new ArrayList<>();
+    private ArrayList<Point> visitedPoints = new ArrayList<>();
     private boolean[][] cellVisited;
-
-
-/*    private GameController(int maxRow, int maxCol, int maxCookies) {
-        this.cookieMap = new CookieMap(maxRow,maxCol,maxCookies);
-        this.maxScore = maxCookies;
-        cellVisited = new boolean[cookieMap.getSelectedRowNum()][cookieMap.getSelectedColNum()];
-        for(boolean[] row : cellVisited){
-            for (boolean cell : row){
-                cell = false;
-            }
-        }
-    }*/
 
     public GameController() {
         options = Options.getInstance();
@@ -56,16 +45,11 @@ public class GameController {
         }
     }
 
-    public void test() {
-        //knownCookiesPoints.add(new Point(0,0));
-        System.out.println("Bool: " + revealedCookies.contains(new Point(0, 0)));
-        //System.out.println(scanCookieHint(new point()));
-    }
-
     //main method for class to interact outside.
     public int select(Point point) {
         this.turnCount++;
         cellVisited[point.getX()][point.getY()] = true;
+        visitedPoints.add(point.clone());
 
         if (hasCookieVisitedAt(point)) {
             if(!hintedCookies.contains(point)){
@@ -164,7 +148,7 @@ public class GameController {
         return revealedCookies.contains(point);
     }
 
-    public boolean hasHintedCookie(Point point) {
+    public boolean hasHintedCookieAt(Point point) {
         return hintedCookies.contains(point);
     }
 
@@ -192,5 +176,23 @@ public class GameController {
     }
     public int getMAX_COL() {
         return MAX_COL;
+    }
+
+    public ArrayList<Point> getPointsToUpdate(Point startingPoint) {
+        ArrayList<Point> answer = new ArrayList<>();
+
+        for(Point point : visitedPoints){
+            int row = point.getX();
+            int col = point.getY();
+
+            if (!point.equals(startingPoint)) {
+                if (!hasCookieAt(point)) {
+                    answer.add(point);
+                } else if (hasHintedCookieAt(point)) {
+                    answer.add(point);
+                }
+            }
+        }
+        return answer;
     }
 }

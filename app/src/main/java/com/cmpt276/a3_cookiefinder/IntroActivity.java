@@ -1,18 +1,30 @@
 package com.cmpt276.a3_cookiefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Guideline;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.drm.DrmStore;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
+
+import java.util.zip.Inflater;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -21,8 +33,22 @@ public class IntroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
         animateCogwheel();
+        animateTexts();
         setupSkipButton();
+    }
 
+    private void animateTexts() {
+        LinearLayout linearLayout = findViewById(R.id.linearLayoutIntro);
+       /* ImageView goose = (ImageView) getLayoutInflater().inflate(R.layout.activity_intro, null);
+        View view = findViewById(R.id.gooseSign);*/
+        ImageView gooseSign = findViewById(R.id.gooseSign);
+        int[] gooseLocation = new int[2];
+        gooseSign.getLocationOnScreen(gooseLocation);
+        //int layoutWidth = linearLayout.getWidth();
+        int destination = 750;
+        ObjectAnimator animator = ObjectAnimator.ofFloat(linearLayout, "x",1800, destination).setDuration(6000);
+        animator.start();
+        //Log.i("INTRO", ""+ destinationX);
     }
 
     private void setupSkipButton() {
@@ -37,17 +63,21 @@ public class IntroActivity extends AppCompatActivity {
 
     private void endIntro() {
         startActivity(MainMenuActivity.getLaunchIntent(IntroActivity.this));
-        finish();
+        this.finish();
     }
 
     private void animateCogwheel() {
-        ImageView cogwheel = findViewById(R.id.imageViewCogWheel);
+        /*ImageView cogwheel = findViewById(R.id.imageViewCogWheel);
         Animation animation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.rotate);
-        cogwheel.startAnimation(animation);
-
+        cogwheel.startAnimation(animation);*/
+        TextView loading = findViewById(R.id.textViewLoading);
         ImageView cogwheelLeft = findViewById(R.id.imageViewCogWheel2);
         Animation animation2 = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.rotate2);
+        Animation blinking = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.blink_anim);
+
         cogwheelLeft.startAnimation(animation2);
+        loading.startAnimation(blinking);
+
         animation2.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

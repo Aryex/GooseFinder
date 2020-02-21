@@ -1,10 +1,12 @@
 package com.cmpt276.a3_cookiefinder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,35 +19,24 @@ import com.cmpt276.a3_cookiefinder.game_activity.GameActivity;
 import com.cmpt276.a3_cookiefinder.model.model.controller.Options;
 
 public class OptionsActivity extends AppCompatActivity {
-
-    public static final String COOKIE_NUM_SHARED_PREF_TAG = "cookie num";
-    public static final String ROW_SHARED_PREF_TAG = "row";
-    public static final String COL_SHARE_PREF_TAG = "col";
-
     private int selectedColSize;
     private int selectedRowSize;
     private int selectedMaxScore;
 
-    private static SharedPreferences highScoreSharedPref;
-    private SharedPreferences.Editor editor;
+    private  SharedPreferences highScoreSharedPref;
     private  String sharedPrefScoreKey;
     private String sharedPrefBestTurnKey;
     private String sharedPrefTotalTurnkey;
+    public final String sharedPrefSavedRowKey = SharedPrefKey.SHARED_PREF_SAVED_ROW_KEY;
+    public final String sharedPrefSavedColKey = SharedPrefKey.SHARED_PREF_SAVED_COL_KEY;
+    public final String sharedPrefSavedScoreKey = SharedPrefKey.SHARED_PREF_SAVED_SCORE_KEY;
+
+
     private Options options;
 
 
-    private static SharedPreferences highScoreSharedPrefs;
-    private static SharedPreferences.Editor highScoreEditor;
-
-    public static Intent getLaunchIntent(Context context) {
+    public static Intent makeLaunchIntent(Context context) {
         return new Intent(context, OptionsActivity.class);
-    }
-
-    public static int getScoreConfig(Context context) {
-        highScoreSharedPrefs = context.getSharedPreferences("HighScore", MODE_PRIVATE);
-        Options options = Options.getInstance();
-        String key = options.getSelectedRowNum() + "x" + options.getSelectedColNum() + "score";
-        return highScoreSharedPref.getInt(key, options.getSelectedScoreNum());
     }
 
     @Override
@@ -53,21 +44,19 @@ public class OptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        highScoreSharedPref = this.getSharedPreferences(GameActivity.SHARED_PREF_HIGH_SCORE_TAG, MODE_PRIVATE);
+        highScoreSharedPref = this.getSharedPreferences(SharedPrefKey.SHARED_PREF_HIGH_SCORE_TAG, MODE_PRIVATE);
         options = Options.getInstance();
 
         makeBoardSizeOptions();
         makeCookieNumOptions();
-        updateSharedPrefKeys();
-        updateStatBoard();
 
-        //Toast.makeText(this, "TurnScore: " + highScoreSharedPref.getInt(selectedRowSize + "x" + selectedColSize + "turn", -1), Toast.LENGTH_SHORT).show();
+        updateStatBoard();
     }
 
     private void updateSharedPrefKeys() {
-        sharedPrefBestTurnKey = makeSharedPrefTurnKey(selectedRowSize, selectedColSize);
-        sharedPrefScoreKey = makeSharedPrefScorekey(selectedRowSize, selectedColSize);
-        sharedPrefTotalTurnkey = makeSharedPrefTotalTurnKey(selectedRowSize,selectedColSize);
+        sharedPrefBestTurnKey = SharedPrefKey.makeSharedPrefTurnKey(selectedRowSize, selectedColSize, selectedMaxScore);
+        sharedPrefScoreKey = SharedPrefKey.makeSharedPrefScorekey(selectedRowSize, selectedColSize, selectedMaxScore);
+        sharedPrefTotalTurnkey = SharedPrefKey.makeSharedPrefTotalTurnKey(selectedRowSize,selectedColSize, selectedMaxScore);
     }
 
     private void setupResetButton() {
@@ -76,29 +65,35 @@ public class OptionsActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = highScoreSharedPref.edit();
-                editor.remove(sharedPrefScoreKey);
-                editor.apply();
-                editor.remove(sharedPrefBestTurnKey);
-                editor.apply();
-                editor.remove(sharedPrefTotalTurnkey);
-                editor.apply();
-
+                clearSharedPref();
                 updateStatBoard();
                 Toast.makeText(OptionsActivity.this, "High Score Reset!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void clearSharedPref() {
+        SharedPreferences.Editor editor = highScoreSharedPref.edit();
+        editor.remove(sharedPrefScoreKey);
+        editor.apply();
+        editor.remove(sharedPrefBestTurnKey);
+        editor.apply();
+        editor.remove(sharedPrefTotalTurnkey);
+        editor.apply();
+    }
+
     private void updateStatBoard() {
         updateSharedPrefKeys();
 
-        String boardConfig = selectedRowSize + "x" + selectedColSize + " with " + selectedMaxScore + "total cookies";
+        String boardConfigString = selectedRowSize + "x" + selectedColSize;
         int bestTurn = highScoreSharedPref.getInt(sharedPrefBestTurnKey, (selectedColSize*selectedRowSize)+selectedMaxScore);
         int totalTurnForConfig = highScoreSharedPref.getInt(sharedPrefTotalTurnkey, 0);
 
         TextView textView = findViewById(R.id.textViewConfigStat);
-        textView.setText(boardConfig);
+        textView.setText(boardConfigString);
+
+        textView = findViewById(R.id.textViewMaxScore);
+        textView.setText(""+selectedMaxScore);
 
         textView = findViewById(R.id.textViewStatNumGame);
         textView.setText(""+totalTurnForConfig);
@@ -109,54 +104,52 @@ public class OptionsActivity extends AppCompatActivity {
         setupResetButton();
     }
 
-    private String makeSharedPrefTotalTurnKey(int selectedRowSize, int selectedColSize) {
-        return selectedRowSize + "x" + selectedColSize + "total_turn";
-    }
-
-    private String makeSharedPrefScorekey(int selectedRowSize, int selectedColSize) {
-        return selectedRowSize + "x" + selectedColSize + "score";
-    }
-
-    private String makeSharedPrefTurnKey(int selectedRowSize, int selectedColSize) {
-        return selectedRowSize + "x" + selectedColSize + "turn";
-    }
-
     private void makeCookieNumOptions() {
         final RadioGroup radioGroup = findViewById(R.id.radioGroupCookiesNum);
-        int[] cookieNums = getResources().getIntArray(R.array.cookie_num);
+        int[] scoreNums = getResources().getIntArray(R.array.cookie_num);
+        ColorStateList white = ContextCompat.getColorStateList(this, R.color.utg_white_text);
 
         boolean setAsDefault = false;
-        for (final int cookieNum : cookieNums) {
+        for (final int scoreNum : scoreNums) {
             final RadioButton radioButton = new RadioButton(this);
-            radioButton.setText(cookieNum + " cookies.");
+            radioButton.setText(""+scoreNum);
+            radioButton.setTextColor(white);
+            radioButton.setButtonTintList(white);
 
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(OptionsActivity.this, "Cookie amount saved!", Toast.LENGTH_SHORT).show();
-                    options.setSelectedScoreNum(cookieNum);
-                    //saveCookieNum(cookieNum);
-                    selectedMaxScore = cookieNum;
+                    Toast.makeText(OptionsActivity.this, "Saved!", Toast.LENGTH_SHORT).show();
+                    options.setSelectedScoreNum(scoreNum);
+                    //saveCookieNum(scoreNum);
+                    selectedMaxScore = scoreNum;
                     updateStatBoard();
+                    saveMaxScore(scoreNum);
                 }
             });
 
             radioGroup.addView(radioButton);
 
-            if (cookieNum == options.getSelectedScoreNum()) {
+            if (scoreNum == highScoreSharedPref.getInt(sharedPrefSavedScoreKey,options.getSelectedScoreNum())) {
                 radioButton.setChecked(true);
-                selectedRowSize = options.getSelectedRowNum();
-                selectedColSize = options.getSelectedColNum();
-                selectedMaxScore = options.getSelectedScoreNum();
+                this.selectedRowSize = options.getSelectedRowNum();
+                this.selectedColSize = options.getSelectedColNum();
+                this.selectedMaxScore = options.getSelectedScoreNum();
                 setAsDefault = true;
             }
         }
+    }
+
+    private void saveMaxScore(int score) {
+        SharedPreferences.Editor editor = highScoreSharedPref.edit();
+        editor.putInt(sharedPrefSavedScoreKey, score).apply();
     }
 
     private void makeBoardSizeOptions() {
         final RadioGroup radioGroup = findViewById(R.id.radioGroupBoardSize);
         int[] colSizes = getResources().getIntArray(R.array.colSizes);
         int[] rowSizes = getResources().getIntArray(R.array.rowSizes);
+        ColorStateList white = ContextCompat.getColorStateList(this, R.color.utg_white_text);
 
         if (colSizes.length != rowSizes.length) {
             Toast.makeText(OptionsActivity.this, "Resource data error.", Toast.LENGTH_LONG).show();
@@ -168,7 +161,10 @@ public class OptionsActivity extends AppCompatActivity {
             final int row = rowSizes[i];
             final int col = colSizes[i];
             RadioButton radioButton = new RadioButton(this);
+
             radioButton.setText("" + row + "x" + col);
+            radioButton.setTextColor(white);
+            radioButton.setButtonTintList(white);
 
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -182,12 +178,14 @@ public class OptionsActivity extends AppCompatActivity {
                     options.setSelectedRowNum(row);
                     options.setSelectedColNum(col);
                     updateStatBoard();
+                    saveSize(row,col);
                 }
             });
 
             radioGroup.addView(radioButton);
 
-            if (row == options.getSelectedRowNum() && col == options.getSelectedColNum()) {
+            if (row == highScoreSharedPref.getInt(sharedPrefSavedRowKey, options.getSelectedRowNum())
+                    && col == highScoreSharedPref.getInt(sharedPrefSavedColKey, options.getSelectedColNum())) {
                 radioButton.setChecked(true);
                 setAsDefault = true;
             }
@@ -195,16 +193,13 @@ public class OptionsActivity extends AppCompatActivity {
         }
     }
 
-    private void saveBoardSize(int row, int col) {
-        editor.putInt(ROW_SHARED_PREF_TAG, row);
-        editor.putInt(COL_SHARE_PREF_TAG, col);
-        editor.apply();
+    private void saveSize(int row, int col) {
+        SharedPreferences.Editor editor = highScoreSharedPref.edit();
+        editor.putInt(sharedPrefSavedRowKey, row).apply();
+        editor.putInt(sharedPrefSavedColKey, col).apply();
     }
 
-    private void saveCookieNum(int cookieNum) {
-        editor.putInt(COOKIE_NUM_SHARED_PREF_TAG, cookieNum);
-        editor.apply();
-    }
+
 
 
 }
